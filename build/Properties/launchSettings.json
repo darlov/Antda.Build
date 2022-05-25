@@ -1,0 +1,13 @@
+﻿{
+  "profiles": {
+    "Build": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "workingDirectory": "../../../..",
+      "commandLineArgs": "--verbosity=diagnostic",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
