@@ -8,25 +8,18 @@ namespace Antda.Build.Tasks;
 [IsDependentOn(typeof(DotNetPackTask))]
 public class PublishArtifactTask : FrostingTask<DefaultBuildContext>
 {
-  private readonly IBuildProvider _buildProvider;
-
-  public PublishArtifactTask(IBuildProvider buildProvider)
+  public override bool ShouldRun(DefaultBuildContext context)
   {
-    _buildProvider = buildProvider;
+    return !context.BuildProvider.IsLocalBuild() ||  context.Parameters.ForceRun;
   }
-
-  // public override bool ShouldRun(DefaultBuildContext context)
-  // {
-  //   return !context.IsLocalBuild;
-  // }
 
   public override void Run(DefaultBuildContext context)
   {
-    var packages = context.GetFiles(context.Options.OutputNugetPackagesDirectoryPath + "/*");
+    var packages = context.GetFiles(context.Paths.OutputNugetPackages + "/*");
 
     foreach (var package in packages)
     {
-      _buildProvider.UploadArtifact(package);
+      context.BuildProvider.UploadArtifact(package);
     }
   }
 }

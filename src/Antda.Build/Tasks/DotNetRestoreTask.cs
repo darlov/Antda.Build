@@ -2,7 +2,7 @@
 using Cake.Common.Diagnostics;
 using Cake.Common.IO;
 using Cake.Common.Tools.DotNet;
-using Cake.Core.Diagnostics;
+using Cake.Core.IO;
 using Cake.Frosting;
 
 namespace Antda.Build.Tasks;
@@ -12,16 +12,19 @@ public class DotNetRestoreTask : FrostingTask<DefaultBuildContext>
 {
   public override void Run(DefaultBuildContext context)
   {
-    var projects = context.GetFiles(context.Options.ProjectsPattern).ToList();
+    var searchPath = $"{context.Paths.Source}/{context.Patterns.Projects}";
+    var projects = context.GetFiles(searchPath).ToList();
 
     if (!projects.Any())
     {
-      context.Warning("The project files is not found in {0}/{1}", context.Environment.WorkingDirectory, context.Options.ProjectsPattern);
+      context.Warning("The project files are not found by the pattern {0}", searchPath);
     }
-
-    foreach (var project in projects)
+    else
     {
-      context.DotNetRestore(project.ToString());
+      foreach (var project in projects)
+      {
+        context.DotNetRestore(project.ToString());
+      }
     }
   }
 }

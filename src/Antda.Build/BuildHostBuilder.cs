@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
 using Antda.Build.Context;
-using Antda.Build.Types;
-using Cake.Core.IO;
+using Antda.Build.Extensions;
 using Cake.Frosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,62 +10,63 @@ namespace Antda.Build;
 
 public class BuildHostBuilder
 {
-  private readonly ICollection<KeyValuePair<string, string>> _configuration;
-  private readonly ICollection<KeyValuePair<string, string>> _defaultConfiguration;
-
-  public static BuildHostBuilder CreateDefault(string projectFilePath)
-  {
-    TypeDescriptor.AddAttributes(typeof(DirectoryPath), new TypeConverterAttribute(typeof(DirectoryPathTypeConverter)));
-    TypeDescriptor.AddAttributes(typeof(FilePath), new TypeConverterAttribute(typeof(FilePathTypeConverter)));
-    
-    return new BuildHostBuilder(projectFilePath);
-  }
-
-  public BuildHostBuilder WithTitle(string title)
-  {
-    _configuration.Add(new(ConfigurationNames.Title, title));
-    return this;
-  }
-  
-  public BuildHostBuilder WithRepository(string repositoryName, string repositoryOwner)
-  {
-    _configuration.Add(new(ConfigurationNames.RepositoryName, repositoryName));
-    _configuration.Add(new(ConfigurationNames.RepositoryOwner, repositoryOwner));
-    return this;
-  }
+  private readonly IDictionary<string, string> _buildConfigurations;
+  private readonly IList<Action<IServiceCollection>> _serviceConfigurations;
 
   private BuildHostBuilder(string projectFilePath)
   {
-    _defaultConfiguration = new List<KeyValuePair<string, string>>
+    _buildConfigurations = new Dictionary<string, string>();
+    _serviceConfigurations = new List<Action<IServiceCollection>>();
+
+    WithOption(PathOptions.ProjectFileKey, projectFilePath);
+
+    ConfigureServices(services =>
     {
-      new(ConfigurationNames.SourceDirectoryPath, "src"),
-      new(ConfigurationNames.ProjectsPattern, "**/*.csproj"),
-      new(ConfigurationNames.TestProjectsPattern, "**/*.csproj"),
-      new(ConfigurationNames.OutputDirectoryPath, "artifacts")
-    };
-    
-    _configuration = new List<KeyValuePair<string, string>>();
-    _configuration.Add(new(ConfigurationNames.ProjectFilePath, projectFilePath));
+      var configuration = new ConfigurationBuilder()
+        .AddInMemoryCollection(_buildConfigurations)
+        .AddEnvironmentVariables()
+        .Build();
+
+      services.AddSingleton<IConfiguration>(configuration);
+      var startup = new DefaultStartup(configuration);
+      startup.Configure(services);
+    });
+  }
+
+  public static BuildHostBuilder CreateDefault(string projectFilePath) 
+    => BuildHostBuilderHelper.ConfigureDefaults(new BuildHostBuilder(projectFilePath));
+  
+  public static BuildHostBuilder CreateEmpty(string projectFilePath) => new(projectFilePath);
+
+  public BuildHostBuilder ConfigureServices(Action<IServiceCollection> services)
+  {
+    _serviceConfigurations.Add(services);
+    return this;
   }
 
   public CakeHost Build<TContext>()
     where TContext : class, IFrostingContext
   {
-    var configuration = new ConfigurationBuilder()
-      .AddInMemoryCollection(_defaultConfiguration)
-      .AddInMemoryCollection(_configuration)
-      .Build();
-
     return new CakeHost()
       .ConfigureServices(services =>
       {
-        services.AddSingleton<IConfiguration>(configuration);
-        var startup = new DefaultStartup(configuration);
-        startup.Configure(services);
+        foreach (var serviceConfiguration in _serviceConfigurations)
+        {
+          serviceConfiguration.Invoke(services);
+        }
       })
       .AddAssembly(typeof(DefaultStartup).Assembly)
       .UseContext<TContext>();
   }
 
-  public CakeHost Build() => Build<DefaultBuildContext>();
+  public CakeHost Build()
+  {
+    return Build<DefaultBuildContext>();
+  }
+
+  public BuildHostBuilder WithOption(string name, string value)
+  {
+    _buildConfigurations[name] = value;
+    return this;
+  }
 }

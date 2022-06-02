@@ -1,7 +1,5 @@
-﻿using Antda.Build.Context;
-using Cake.Common;
-using Cake.Common.Build;
-using Cake.Common.Build.AppVeyor;
+﻿using Antda.Build.BuildProviders;
+using Antda.Build.Context;
 using Cake.Core;
 using Cake.Frosting;
 using Microsoft.Extensions.Options;
@@ -10,29 +8,38 @@ namespace Antda.Build;
 
 public class DefaultBuildContext : FrostingContext
 {
-  public DefaultBuildContext(ICakeContext context, IOptions<BuildOptions> buildOptions)
+  public DefaultBuildContext(
+    ICakeContext context,
+    IBuildProvider buildProvider,
+    IOptions<GithubOptions> githubOptions,
+    IOptions<PatternOptions> patterns,
+    IOptions<PathOptions> paths,
+    IOptions<ParameterOptions> parameters)
     : base(context)
   {
-    BuildSystem = this.BuildSystem();
-    VariableNames = new EnvironmentVariableNames();
-    Options = buildOptions.Value;
-    
-    BuildConfiguration = context.Argument("configuration", "Release");
+    BuildProvider = buildProvider;
+    Patterns = patterns.Value;
+    Paths = paths.Value;
+    Parameters = parameters.Value;
+    Github = githubOptions.Value;
   }
+  
+  public PatternOptions Patterns { get; }
+  
+  public PathOptions Paths { get; }
+  
+  public ParameterOptions Parameters { get; }
 
-  public BuildOptions Options { get; }
+  public GithubOptions Github { get; }
 
-  public BuildSystem BuildSystem { get; }
-
-  public bool IsLocalBuild => BuildSystem.IsLocalBuild;
-
-  public bool IsAppVeyor => AppVeyor.IsRunningOnAppVeyor;
-
-  public IAppVeyorProvider AppVeyor => BuildSystem.AppVeyor;
+  public IBuildProvider BuildProvider { get; }
   
   public BuildVersion BuildVersion { get; set; } = null!;
 
-  public EnvironmentVariableNames VariableNames { get; }
+  public BranchType BranchType { get; set; }
 
-  public string BuildConfiguration { get; }
+  public bool IsPreReleaseBranch { get; set; }
+  
+  public bool IsMainRepository { get; set; }
+  
 }

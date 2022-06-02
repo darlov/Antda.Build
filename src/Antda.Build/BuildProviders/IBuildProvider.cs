@@ -8,11 +8,7 @@ public interface IBuildProvider
   
   string BuildNumber { get; }
   
-  bool IsPullRequest { get; }
-  
-  public string BranchName { get; }
-
-  public string RepositoryName { get; }
+  Repository Repository { get; }
   
   void UploadArtifact(FilePath path);
 

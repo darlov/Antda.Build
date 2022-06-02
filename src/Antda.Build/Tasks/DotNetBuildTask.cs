@@ -10,19 +10,21 @@ namespace Antda.Build.Tasks;
 [IsDependentOn(typeof(DotNetRestoreTask))]
 public sealed class DotNetBuildTask : FrostingTask<DefaultBuildContext>
 {
-  // Tasks can be asynchronous
   public override void Run(DefaultBuildContext context)
   {
-    var projects = context.GetFiles(context.Options.ProjectsPattern);
+    var searchPath = $"{context.Paths.Source}/{context.Patterns.Projects}";
+    var projects = context.GetFiles(searchPath);
+    
     foreach (var project in projects)
     {
       context.DotNetBuild(project.FullPath, new DotNetCoreBuildSettings
       {
-        Configuration = context.BuildConfiguration,
+        Configuration = context.Parameters.Configuration,
         NoRestore = true,
         MSBuildSettings = new DotNetMSBuildSettings
         {
-          Version = context.BuildVersion.SemVer
+          Version = context.BuildVersion.SemVer,
+          InformationalVersion = context.BuildVersion.InformationalVersion
         }
       });
     }

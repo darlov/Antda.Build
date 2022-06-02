@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using Antda.Build.BuildProviders;
 using Antda.Build.Context;
+using Antda.Build.Context.Configurations;
+using Antda.Build.Output;
 using Cake.Frosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace Antda.Build;
 
@@ -24,13 +25,36 @@ public class DefaultStartup : IFrostingStartup
       services.UseTool(new Uri(toolUrl));
     }
     
-    services.Configure<BuildOptions>(_configuration);
-    services.AddSingleton<IPostConfigureOptions<BuildOptions>, BuildOptionsPostConfigure>();
+    services.AddOptions<ParameterOptions>()
+      .Bind(_configuration.GetSection(ParameterOptions.SectionName))
+      .ValidateDataAnnotations();
+    
+    services.AddOptions<PathOptions>()
+      .Bind(_configuration.GetSection(PathOptions.SectionName))
+      .ValidateDataAnnotations();
+    
+    services.AddOptions<PatternOptions>()
+      .Bind(_configuration.GetSection(PatternOptions.SectionName))
+      .ValidateDataAnnotations();
+    
+    services.AddOptions<VariableOptions>()
+      .Bind(_configuration.GetSection(VariableOptions.SectionName))
+      .ValidateDataAnnotations();
+    
+    services.ConfigureOptions<ParameterOptionsPostConfigure>();
+    services.ConfigureOptions<PathOptionsPostConfigure>();
+    services.ConfigureOptions<GithubOptionsConfigure>();
 
     services.UseContext<DefaultBuildContext>();
     services.UseLifetime<DefaultLifetime>();
     services.AddSingleton<IBuildProviderFactory, BuildProviderFactory>();
     services.AddSingleton(s => s.GetRequiredService<IBuildProviderFactory>().Create());
+
+    services.AddLogObjectProvider<ParameterOptionsOutput>();
+    services.AddLogObjectProvider<DefaultBuildContextOutput>();
+    services.AddLogObjectProvider<BuildProviderOutput>();
+    services.AddLogObjectProvider<PathOptionsOutput>();
+    services.AddLogObjectProvider<PackageSourcesOutput>();
   }
 
   protected virtual IEnumerable<string> GetTools()

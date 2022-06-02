@@ -1,4 +1,5 @@
 ﻿using System;
+using Antda.Build.BuildProviders;
 using Cake.Common.Tools.DotNet;
 using Cake.Common.Tools.DotNet.MSBuild;
 using Cake.Common.Tools.DotNet.Pack;
@@ -11,24 +12,25 @@ namespace Antda.Build.Tasks;
 [IsDependentOn(typeof(DotNetBuildTask))]
 public class DotNetPackTask : FrostingTask<DefaultBuildContext>
 {
-  // public override bool ShouldRun(DefaultBuildContext context)
-  // {
-  //   return !context.IsLocalBuild;
-  // }
+  public override bool ShouldRun(DefaultBuildContext context)
+  {
+    return !context.BuildProvider.IsLocalBuild() ||  context.Parameters.ForceRun;
+  }
 
   public override void Run(DefaultBuildContext context)
   {
-    context.DotNetPack(context.Options.ProjectFile.FullPath, new DotNetPackSettings
+    context.DotNetPack(context.Paths.ProjectFile, new DotNetPackSettings
     {
-      Configuration = context.BuildConfiguration,
-      OutputDirectory = context.Options.OutputNugetPackagesDirectoryPath,
+      Configuration = context.Parameters.Configuration,
+      OutputDirectory = context.Paths.OutputNugetPackages,
       NoRestore = true,
       NoBuild = true,
       IncludeSymbols = true,
       SymbolPackageFormat = "snupkg",
       MSBuildSettings = new DotNetMSBuildSettings
       {
-        Version =  context.BuildVersion.SemVer
+        Version =  context.BuildVersion.SemVer,
+        InformationalVersion = context.BuildVersion.InformationalVersion
       }
     });
   }

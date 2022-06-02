@@ -8,9 +8,9 @@ public class CleanTask : FrostingTask<DefaultBuildContext>
 {
   public override void Run(DefaultBuildContext context)
   {
-    if (context.DirectoryExists(context.Options.OutputNugetPackagesDirectoryPath))
+    if (context.DirectoryExists(context.Paths.OutputNugetPackages))
     {
-      context.DeleteDirectory(context.Options.OutputNugetPackagesDirectoryPath, new DeleteDirectorySettings
+      context.DeleteDirectory(context.Paths.OutputNugetPackages, new DeleteDirectorySettings
       {
         Recursive = true,
         Force = true

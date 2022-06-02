@@ -8,11 +8,11 @@ namespace Antda.Build.BuildProviders;
 public class BuildProviderFactory : IBuildProviderFactory
 {
   private readonly ICakeContext _context;
-  private readonly BuildOptions _buildOptions;
+  private readonly PathOptions _pathOptions;
 
-  public BuildProviderFactory(IOptions<BuildOptions> buildOptions, ICakeContext context)
+  public BuildProviderFactory(IOptions<PathOptions> pathOptions, ICakeContext context)
   {
-    _buildOptions = buildOptions.Value;
+    _pathOptions = pathOptions.Value;
     _context = context;
   }
 
@@ -21,7 +21,7 @@ public class BuildProviderFactory : IBuildProviderFactory
     var buildSystem = _context.BuildSystem();
     if (buildSystem.IsLocalBuild)
     {
-      return new LocalBuildProvider(_context, _buildOptions);
+      return new LocalBuildProvider(_context, _pathOptions);
     }
 
     if (buildSystem.IsRunningOnAppVeyor)
@@ -29,6 +29,6 @@ public class BuildProviderFactory : IBuildProviderFactory
       return new AppVeyorBuildProvider(buildSystem.AppVeyor);
     }
     
-    return new LocalBuildProvider(_context, _buildOptions);
+    return new LocalBuildProvider(_context, _pathOptions);
   }
 }

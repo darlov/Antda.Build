@@ -9,6 +9,7 @@ namespace Antda.Build.Tasks;
 [IsDependentOn(typeof(DotNetBuildTask))]
 [IsDependentOn(typeof(DotNetPackTask))]
 [IsDependentOn(typeof(PublishArtifactTask))]
+[IsDependentOn(typeof(DotNetNugetPushTask))]
 [IsDependentOn(typeof(GitReleaseTask))]
 public class DefaultTask : FrostingTask
 {

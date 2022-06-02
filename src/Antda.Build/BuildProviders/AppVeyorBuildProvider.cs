@@ -14,16 +14,21 @@ public class AppVeyorBuildProvider : IBuildProvider
   {
     _appVeyorProvider = appVeyorProvider;
     BuildNumber = _appVeyorProvider.Environment.Build.Number.ToString();
-    BranchName = _appVeyorProvider.Environment.Repository.Branch;
-    RepositoryName = _appVeyorProvider.Environment.Repository.Name;
-    IsPullRequest = _appVeyorProvider.Environment.PullRequest.IsPullRequest;
+    var repositoryName = _appVeyorProvider.Environment.Repository.Name;
+
+    Repository = new Repository(repositoryName, true)
+    {
+      BranchName = _appVeyorProvider.Environment.Repository.Branch,
+      IsPullRequest = _appVeyorProvider.Environment.PullRequest.IsPullRequest, 
+      IsTag = _appVeyorProvider.Environment.Repository.Tag.IsTag, 
+      TagName = _appVeyorProvider.Environment.Repository.Tag.Name
+    };
   }
 
   public BuildProviderType Type => BuildProviderType.AppVeyor;
   public string BuildNumber { get; }
-  public bool IsPullRequest { get; }
-  public string BranchName { get; }
-  public string RepositoryName { get; }
+
+  public Repository Repository { get; }
   
   public void UploadArtifact(FilePath path) => _appVeyorProvider.UploadArtifact(path);
 
