@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Antda.Build.BuildProviders;
-using Antda.Build.Packages;
+using Antda.Build.PackageSources;
 using Cake.Common.Diagnostics;
 using Cake.Common.IO;
 using Cake.Common.Tools.DotNet;

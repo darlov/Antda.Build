@@ -1,41 +1,60 @@
-﻿using Antda.Build.Context;
+﻿using System;
+using System.Linq;
+using Antda.Build.Context;
 using Cake.Common.Diagnostics;
 using Cake.Core;
 using Cake.Core.IO;
 using Cake.Git;
+using LibGit2Sharp;
 
 namespace Antda.Build.BuildProviders;
 
 public class LocalBuildProvider : IBuildProvider
 {
   private readonly ICakeContext _context;
-  public LocalBuildProvider(ICakeContext context, BuildOptions buildOptions)
+  public LocalBuildProvider(ICakeContext context, PathOptions buildOptions)
   {
     _context = context;
 
-    var gitRoot = context.GitFindRootFromPath(buildOptions.RootDirectoryPath);
-    var branch = context.GitBranchCurrent(gitRoot);
+    DirectoryPath? gitRoot = null;
+    try
+    {
+      gitRoot = context.GitFindRootFromPath(buildOptions.Root);
+     
+    }
+    catch (RepositoryNotFoundException)
+    {
+      context.Warning("Unable to find git repository.");
+    }
 
-    BranchName = branch.FriendlyName;
+    if (gitRoot != null)
+    {
+      var branch = context.GitBranchCurrent(gitRoot);
+      var tags = context.GitTags(gitRoot);
+      var tag = tags?.FirstOrDefault();
+      var isTag = tag != null;
+      var tagName = tag != null ? tag.FriendlyName : null;
+
+      Repository = new Repository("Local", true)
+      {
+        BranchName = branch.FriendlyName,
+        TagName = tagName,
+        IsTag = isTag
+      };
+    }
+    else
+    {
+      Repository = new Repository("Local", false);
+    }
   }
 
   public BuildProviderType Type => BuildProviderType.Local;
 
   public string BuildNumber => "-1";
-
-  public bool IsPullRequest => false;
-
-  public string BranchName { get; }
-
-  public string RepositoryName => "Local";
   
-  public void UploadArtifact(FilePath path)
-  {
-    _context.Warning("Unable to upload build artifacts. Path: {0}", path);
-  }
+  public Repository Repository { get; }
+  
+  public void UploadArtifact(FilePath path) => _context.Warning("Unable to upload build artifacts. Path: {0}", path);
 
-  public void UpdateBuildVersion(string buildVersion)
-  {
-    _context.Warning("Unable to update build number. Build Version: {0}", buildVersion);
-  }
+  public void UpdateBuildVersion(string buildVersion) => _context.Warning("Unable to update build number. Build Version: {0}", buildVersion);
 }
