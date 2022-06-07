@@ -34,7 +34,7 @@ public class DotNetNugetPushTask : FrostingTask<DefaultBuildContext>
 
   public override void Run(DefaultBuildContext context)
   {
-    var packages = context.GetFiles(context.Paths.OutputNugetPackages + "/*");
+    var packages = context.GetFiles(context.Paths.OutputNugetPackages + "/*.nupkg");
     var packageSources = _packageSourceProvider.GetPackageSources();
 
     switch (context.PublishType)

@@ -12,6 +12,7 @@
     <PackageProjectUrl>https://github.com/darlov/Antda.Build</PackageProjectUrl>
     <Authors>Denis Arlovski</Authors>
     <Company>Denis Arlovski</Company>
+    <Description>Antda.Build is a set of build tasks based on Cake.Frosting library.</Description>
   </PropertyGroup>
 
   <ItemGroup>
