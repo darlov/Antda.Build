@@ -2,7 +2,7 @@
 branches:
   only:
   - develop
-  - master
+  - main
   - /release/.*/
   - /hotfix/.*/
 build_script: 
