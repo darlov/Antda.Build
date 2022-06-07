@@ -1,9 +1,9 @@
 ﻿image: Ubuntu
 branches:
   only:
-    - develop
-    - master
-    - /release/.*/
-    - /hotfix/.*/
+  - develop
+  - master
+  - /release/.*/
+  - /hotfix/.*/
 build_script: 
   - sh: ./build.sh --target=CI --verbosity=diagnostic
