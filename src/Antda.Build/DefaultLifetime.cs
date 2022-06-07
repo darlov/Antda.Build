@@ -4,6 +4,7 @@ using System.Linq;
 using Antda.Build.BuildProviders;
 using Antda.Build.Context;
 using Antda.Build.Types;
+using Cake.Common;
 using Cake.Common.Diagnostics;
 using Cake.Common.Tools.GitVersion;
 using Cake.Core;
@@ -25,8 +26,8 @@ public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
   {
     if (!string.IsNullOrEmpty(context.Parameters.Title))
     {
-      AnsiConsole.Write(new FigletText(context.Parameters.Title)
-        .LeftAligned());
+      AnsiConsole.Write(new FigletText(context.Parameters.Title).LeftAligned());
+      AnsiConsole.WriteLine();
     }
     
     context.BuildVersion = GetBuildVersion(context);
@@ -45,7 +46,7 @@ public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
       }
     }
 
-    if (context.Parameters.UpdateBuildNumber)
+    if (context.Parameters.UpdateBuildNumber && !context.BuildProvider.IsLocalBuild())
     {
       var version = $"{context.BuildVersion.SemVersion}_{_buildProvider.BuildNumber}";
       context.Information("Updating build version to {0}", version);
@@ -63,14 +64,15 @@ public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
     {
       var gitVersion = context.GitVersion(new GitVersionSettings
       {
-        OutputType = GitVersionOutput.Json,
-        NoFetch = true
+        OutputType = GitVersionOutput.Json
       });
 
-      return new BuildVersion(gitVersion.SemVer, gitVersion.InformationalVersion);
+      var milestone = context.Parameters.UsePreRelease ? gitVersion.SemVer : gitVersion.MajorMinorPatch;
+
+      return new BuildVersion(milestone, gitVersion.MajorMinorPatch, gitVersion.SemVer, gitVersion.InformationalVersion);
     }
 
-    return new BuildVersion("0.1.0-beta.0", "0.1.0-beta.0+Branch.local.Sha.5a030134417cb4ee281bb74aaf61bb046f722272");
+    return new BuildVersion("0.1.0", "0.1.0", "0.1.0-beta.0", "0.1.0-beta.0+Branch.local.Sha.5a030134417cb4ee281bb74aaf61bb046f722272");
   }
 
   private BranchType GetBranchType(DefaultBuildContext context)

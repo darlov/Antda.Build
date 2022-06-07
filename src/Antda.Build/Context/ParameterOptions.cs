@@ -20,6 +20,8 @@ public class ParameterOptions
 
   public bool ForceRun { get; set; }
   
+  public bool UsePreRelease { get; set; }
+  
   public string? Title { get; set; }
 
   public string RepositoryName { get; set; } = string.Empty;
@@ -37,5 +39,6 @@ public class ParameterOptions
   
   [Required]
   public IReadOnlyCollection<BranchType>  PreReleaseBranches { get; set; } = null!;
+
 
 }
