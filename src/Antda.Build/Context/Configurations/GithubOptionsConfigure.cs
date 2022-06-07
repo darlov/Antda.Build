@@ -15,12 +15,12 @@ public class GithubOptionsConfigure : IConfigureOptions<GithubOptions>
     _variableOptions = variableOptions.Value;
     _parameterOptions = parameterOptions.Value;
   }
-  
+
   public void Configure(GithubOptions options)
   {
     options.RepositoryName = _parameterOptions.RepositoryName;
     options.RepositoryOwner = _parameterOptions.RepositoryOwner;
-    
+
     if (!string.IsNullOrEmpty(_variableOptions.GithubToken))
     {
       options.GithubToken = _context.Environment.GetEnvironmentVariable(_variableOptions.GithubToken);

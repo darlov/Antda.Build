@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Antda.Build.Context;
 using Antda.Build.Extensions;
 using Cake.Frosting;
 using Microsoft.Extensions.Configuration;
@@ -13,12 +12,10 @@ public class BuildHostBuilder
   private readonly IDictionary<string, string> _buildConfigurations;
   private readonly IList<Action<IServiceCollection>> _serviceConfigurations;
 
-  private BuildHostBuilder(string projectFilePath)
+  private BuildHostBuilder()
   {
     _buildConfigurations = new Dictionary<string, string>();
     _serviceConfigurations = new List<Action<IServiceCollection>>();
-
-    WithOption(PathOptions.ProjectFileKey, projectFilePath);
 
     ConfigureServices(services =>
     {
@@ -33,10 +30,8 @@ public class BuildHostBuilder
     });
   }
 
-  public static BuildHostBuilder CreateDefault(string projectFilePath) 
-    => BuildHostBuilderHelper.ConfigureDefaults(new BuildHostBuilder(projectFilePath));
-  
-  public static BuildHostBuilder CreateEmpty(string projectFilePath) => new(projectFilePath);
+  public static BuildHostBuilder CreateDefault()
+    => BuildHostBuilderHelper.ConfigureDefaults(new BuildHostBuilder());
 
   public BuildHostBuilder ConfigureServices(Action<IServiceCollection> services)
   {
@@ -59,14 +54,23 @@ public class BuildHostBuilder
       .UseContext<TContext>();
   }
 
-  public CakeHost Build()
-  {
-    return Build<DefaultBuildContext>();
-  }
+  public CakeHost Build() => Build<DefaultBuildContext>();
 
   public BuildHostBuilder WithOption(string name, string value)
   {
     _buildConfigurations[name] = value;
+    return this;
+  }
+  
+  public BuildHostBuilder WithOptions(string name, params string[] values)
+  {
+    var strings = values ?? throw new ArgumentNullException(nameof(values));
+    
+    for (var index = 0; index < strings.Length; index++)
+    {
+      _buildConfigurations[$"{name}:{index}"] =  strings[index];
+    }
+
     return this;
   }
 }

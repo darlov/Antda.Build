@@ -14,32 +14,34 @@ public class DefaultBuildContext : FrostingContext
     IOptions<GithubOptions> githubOptions,
     IOptions<PatternOptions> patterns,
     IOptions<PathOptions> paths,
-    IOptions<ParameterOptions> parameters)
+    IOptions<ParameterOptions> parameters,
+    BuildPlatform buildPlatform)
     : base(context)
   {
     BuildProvider = buildProvider;
+    BuildPlatform = buildPlatform;
     Patterns = patterns.Value;
     Paths = paths.Value;
     Parameters = parameters.Value;
     Github = githubOptions.Value;
   }
-  
+
   public PatternOptions Patterns { get; }
-  
+
   public PathOptions Paths { get; }
-  
+
   public ParameterOptions Parameters { get; }
 
   public GithubOptions Github { get; }
 
   public IBuildProvider BuildProvider { get; }
-  
+
   public BuildVersion BuildVersion { get; set; } = null!;
+  
+  public BuildPlatform BuildPlatform { get; }
 
   public BranchType BranchType { get; set; }
-
-  public bool IsPreReleaseBranch { get; set; }
-  
   public bool IsMainRepository { get; set; }
-  
+
+  public PublishType PublishType { get; set; } = PublishType.None;
 }

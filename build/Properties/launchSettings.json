@@ -4,7 +4,7 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "workingDirectory": "../../../..",
-      "commandLineArgs": "--verbosity=diagnostic",
+      "commandLineArgs": "--target=ci --verbosity=diagnostic",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"
       }

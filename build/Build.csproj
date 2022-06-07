@@ -6,6 +6,6 @@
     <LangVersion>Latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Antda.Build\Antda.Build.csproj" />
+    <ProjectReference Include="..\src\Antda.Build\Antda.Build.csproj"/>
   </ItemGroup>
 </Project>

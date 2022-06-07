@@ -2,7 +2,7 @@
 
 namespace Antda.Build.PackageSources;
 
-public class GeneralPackageSourceResolver: IPackageSourceResolver
+public class GeneralPackageSourceResolver : IPackageSourceResolver
 {
   private readonly IConfiguration _configuration;
 
@@ -20,7 +20,7 @@ public class GeneralPackageSourceResolver: IPackageSourceResolver
     };
 
     _configuration.GetSection(config.PrefixName).Bind(packageSource);
-    
+
     return packageSource;
   }
 }

@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Antda.Build.Output;
-using Cake.Common.Diagnostics;
-using Cake.Core.Diagnostics;
 using Cake.Frosting;
-using Humanizer;
 
 namespace Antda.Build.Tasks;
 
@@ -20,13 +17,7 @@ public class SetupInfoTask : FrostingTask<DefaultBuildContext>
 
   public override void Run(DefaultBuildContext context)
   {
-    foreach (var printProvider in _printProviders)
-    {
-      LogOutputHelper.LogGroup(context, printProvider.Name);
-      foreach (var item in printProvider.GetLogs())
-      {
-        LogOutputHelper.Log(context, item);
-      }
-    }
+    var groups = _printProviders.Select(m => new LogObjectGroup(m.Name, m.GetLogs().ToList()));
+    LogOutputHelper.Log(context, groups);
   }
 }

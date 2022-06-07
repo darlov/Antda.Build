@@ -13,6 +13,7 @@ namespace Antda.Build;
 public class DefaultStartup : IFrostingStartup
 {
   private readonly IConfiguration _configuration;
+
   public DefaultStartup(IConfiguration configuration)
   {
     _configuration = configuration;
@@ -24,36 +25,38 @@ public class DefaultStartup : IFrostingStartup
     {
       services.UseTool(new Uri(toolUrl));
     }
-    
+
     services.AddOptions<ParameterOptions>()
       .Bind(_configuration.GetSection(ParameterOptions.SectionName))
       .ValidateDataAnnotations();
-    
+
     services.AddOptions<PathOptions>()
       .Bind(_configuration.GetSection(PathOptions.SectionName))
       .ValidateDataAnnotations();
-    
+
     services.AddOptions<PatternOptions>()
       .Bind(_configuration.GetSection(PatternOptions.SectionName))
       .ValidateDataAnnotations();
-    
+
     services.AddOptions<VariableOptions>()
       .Bind(_configuration.GetSection(VariableOptions.SectionName))
       .ValidateDataAnnotations();
-    
+
     services.ConfigureOptions<ParameterOptionsPostConfigure>();
     services.ConfigureOptions<PathOptionsPostConfigure>();
     services.ConfigureOptions<GithubOptionsConfigure>();
+    services.AddSingleton<BuildPlatform>();
 
     services.UseContext<DefaultBuildContext>();
     services.UseLifetime<DefaultLifetime>();
     services.AddSingleton<IBuildProviderFactory, BuildProviderFactory>();
     services.AddSingleton(s => s.GetRequiredService<IBuildProviderFactory>().Create());
-
+    
     services.AddLogObjectProvider<ParameterOptionsOutput>();
+    services.AddLogObjectProvider<PathOptionsOutput>();
+    services.AddLogObjectProvider<PatternOptionsOutput>();
     services.AddLogObjectProvider<DefaultBuildContextOutput>();
     services.AddLogObjectProvider<BuildProviderOutput>();
-    services.AddLogObjectProvider<PathOptionsOutput>();
     services.AddLogObjectProvider<PackageSourcesOutput>();
   }
 

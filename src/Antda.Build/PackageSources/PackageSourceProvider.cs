@@ -12,6 +12,6 @@ public class PackageSourceProvider : IPackageSourceProvider
     _packageSourceConfigs = packageSourceConfigs;
   }
 
-  public IEnumerable<PackageSource> GetPackageSources() 
+  public IEnumerable<PackageSource> GetPackageSources()
     => _packageSourceConfigs.Select(config => config.Resolve()).Where(source => source != null).ToList()!;
 }

@@ -4,14 +4,11 @@ using Cake.Frosting;
 
 namespace Antda.Build.Tasks;
 
-[TaskName("Publish-Artifact")]
+[TaskName("Upload-Artifacts")]
 [IsDependentOn(typeof(DotNetPackTask))]
-public class PublishArtifactTask : FrostingTask<DefaultBuildContext>
+public class UploadArtifactsTask : FrostingTask<DefaultBuildContext>
 {
-  public override bool ShouldRun(DefaultBuildContext context)
-  {
-    return !context.BuildProvider.IsLocalBuild() ||  context.Parameters.ForceRun;
-  }
+  public override bool ShouldRun(DefaultBuildContext context) => !context.BuildProvider.IsLocalBuild() || context.Parameters.ForceRun;
 
   public override void Run(DefaultBuildContext context)
   {

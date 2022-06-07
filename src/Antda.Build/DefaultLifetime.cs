@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Antda.Build.BuildProviders;
 using Antda.Build.Context;
+using Antda.Build.Types;
 using Cake.Common.Diagnostics;
 using Cake.Common.Tools.GitVersion;
 using Cake.Core;
@@ -22,36 +23,48 @@ public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
 
   public override void Setup(DefaultBuildContext context)
   {
-    AnsiConsole.Write(new FigletText(context.Parameters.Title)
-      .LeftAligned());
-
+    if (!string.IsNullOrEmpty(context.Parameters.Title))
+    {
+      AnsiConsole.Write(new FigletText(context.Parameters.Title)
+        .LeftAligned());
+    }
+    
     context.BuildVersion = GetBuildVersion(context);
     context.BranchType = GetBranchType(context);
-    context.IsPreReleaseBranch = !context.Parameters.BranchesToRelease.Contains(context.BranchType);
-    context.IsMainRepository =  $"{context.Parameters.RepositoryOwner}/{context.Parameters.RepositoryName}".Equals(_buildProvider.Repository.Name, StringComparison.OrdinalIgnoreCase);
+    context.IsMainRepository = $"{context.Parameters.RepositoryOwner}/{context.Parameters.RepositoryName}".Equals(_buildProvider.Repository.Name, StringComparison.OrdinalIgnoreCase);
+    
+    if (context.IsMainRepository && !context.BuildProvider.Repository.IsPullRequest)
+    {
+      if (context.Parameters.PreReleaseBranches.Contains(context.BranchType))
+      {
+        context.PublishType = PublishType.PreRelease;
+      }
+      else if (context.Parameters.ReleaseBranches.Contains(context.BranchType) && context.BuildProvider.Repository.IsTag && !string.IsNullOrEmpty(context.BuildProvider.Repository.TagName))
+      {
+        context.PublishType = PublishType.Release;
+      }
+    }
 
     if (context.Parameters.UpdateBuildNumber)
     {
-      var version = $"{context.BuildVersion.SemVer}_{_buildProvider.BuildNumber}";
-      context.Information("Updating build number to {0}", version);
+      var version = $"{context.BuildVersion.SemVersion}_{_buildProvider.BuildNumber}";
+      context.Information("Updating build version to {0}", version);
       _buildProvider.UpdateBuildVersion(version);
     }
   }
-  
+
   public override void Teardown(DefaultBuildContext context, ITeardownContext info)
   {
   }
 
   private BuildVersion GetBuildVersion(DefaultBuildContext context)
   {
-
     if (context.BuildProvider.Repository.Exist)
     {
       var gitVersion = context.GitVersion(new GitVersionSettings
       {
         OutputType = GitVersionOutput.Json,
-        NoFetch = true,
-
+        NoFetch = true
       });
 
       return new BuildVersion(gitVersion.SemVer, gitVersion.InformationalVersion);
@@ -62,26 +75,22 @@ public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
 
   private BranchType GetBranchType(DefaultBuildContext context)
   {
-    if (Regex.IsMatch(_buildProvider.Repository.BranchName, context.Patterns.MasterBranch, RegexOptions.IgnoreCase))
+    var mapping = new List<(string Pattern, BranchType type)>
     {
-      return BranchType.Master;
-    }
-    
-    if (Regex.IsMatch(_buildProvider.Repository.BranchName, context.Patterns.DevelopBranch, RegexOptions.IgnoreCase))
+      (context.Patterns.MasterBranch, BranchType.Master),
+      (context.Patterns.DevelopBranch, BranchType.Develop),
+      (context.Patterns.ReleaseBranch, BranchType.Release),
+      (context.Patterns.HotfixBranch, BranchType.Hotfix),
+    };
+
+    foreach (var (pattern, type) in mapping)
     {
-      return BranchType.Develop;
-    }
-    
-    if (Regex.IsMatch(_buildProvider.Repository.BranchName, context.Patterns.ReleaseBranch, RegexOptions.IgnoreCase))
-    {
-      return BranchType.Release;
-    }
-    
-    if (Regex.IsMatch(_buildProvider.Repository.BranchName, context.Patterns.HotfixBranch, RegexOptions.IgnoreCase))
-    {
-      return BranchType.Hotfix;
+      if (pattern.StartsWith(_buildProvider.Repository.BranchName, StringComparison.OrdinalIgnoreCase))
+      {
+        return type;
+      }
     }
 
-    return string.IsNullOrEmpty(_buildProvider.Repository.BranchName) ? BranchType.None : BranchType.Other;
+    return string.IsNullOrEmpty(_buildProvider.Repository.BranchName) || _buildProvider.Repository.BranchName == StringNone.Value ? BranchType.None : BranchType.Other;
   }
 }

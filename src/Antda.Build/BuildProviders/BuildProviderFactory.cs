@@ -28,7 +28,7 @@ public class BuildProviderFactory : IBuildProviderFactory
     {
       return new AppVeyorBuildProvider(buildSystem.AppVeyor);
     }
-    
+
     return new LocalBuildProvider(_context, _pathOptions);
   }
 }

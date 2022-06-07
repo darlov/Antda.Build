@@ -17,12 +17,12 @@ public class PackageSourcesOutput : ILogObjectProvider<IEnumerable<PackageSource
     foreach (var source in targets)
     {
       yield return new(source.PrefixName);
-      yield return new(source.PreRelease);
       yield return new(source.PushSourceUrl);
+      yield return new(source.PreRelease);
     }
   }
 
   public string Name => "Package Sources";
-  
+
   public IEnumerable<LogObject> GetLogs() => GetLogs(_packageSourceProvider.GetPackageSources());
 }

@@ -2,15 +2,15 @@
 
 namespace Antda.Build.Tasks;
 
-[TaskName("Default")]
+[TaskName("CI")]
 [IsDependentOn(typeof(SetupInfoTask))]
 [IsDependentOn(typeof(CleanTask))]
 [IsDependentOn(typeof(DotNetRestoreTask))]
 [IsDependentOn(typeof(DotNetBuildTask))]
 [IsDependentOn(typeof(DotNetPackTask))]
-[IsDependentOn(typeof(PublishArtifactTask))]
-[IsDependentOn(typeof(DotNetNugetPushTask))]
+[IsDependentOn(typeof(UploadArtifactsTask))]
 [IsDependentOn(typeof(GitReleaseTask))]
-public class DefaultTask : FrostingTask
+[IsDependentOn(typeof(DotNetNugetPushTask))]
+public class CiTask : FrostingTask
 {
 }

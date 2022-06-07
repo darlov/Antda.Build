@@ -7,6 +7,9 @@ namespace Antda.Build.Extensions;
 
 public static class BuildHostBuilderOptionsExtensions
 {
+  public static BuildHostBuilder WithProjects(this BuildHostBuilder builder, params string[] projectFilePaths)
+    => builder.WithOptions(PathOptions.ProjectFilesKey, projectFilePaths);
+
   public static BuildHostBuilder WithTitle(this BuildHostBuilder builder, string title)
     => builder.WithOption(ParameterOptions.TitleKey, title);
 
@@ -20,10 +23,10 @@ public static class BuildHostBuilderOptionsExtensions
 
   public static BuildHostBuilder UsePackageSource(this BuildHostBuilder builder, string prefixName, bool preRelease = false)
     => builder.UsePackageSourceResolver<GeneralPackageSourceResolver>(prefixName, null, preRelease);
-  
+
   public static BuildHostBuilder UseGithubPackageSource(this BuildHostBuilder builder, string prefixName = "Github", bool preRelease = true)
     => builder.UsePackageSourceResolver<GithubPackageSourceResolver>(prefixName, null, preRelease);
-  
+
   public static BuildHostBuilder UseNugetPackageSource(this BuildHostBuilder builder, string prefixName = "Nuget", bool preRelease = false)
     => builder.UsePackageSourceResolver<NugetPackageSourceResolver>(prefixName, null, preRelease);
 
@@ -35,7 +38,7 @@ public static class BuildHostBuilderOptionsExtensions
       {
         services.TryAddSingleton<IPackageSourceProvider, PackageSourceProvider>();
         services.TryAddSingleton<T, T>();
-        services.AddSingleton(s => new PackageSourceConfig(s.GetRequiredService<T>(),prefixName, pushSourceUrl, preRelease));
+        services.AddSingleton(provider => new PackageSourceConfig(provider.GetRequiredService<T>(), prefixName, pushSourceUrl, preRelease));
       });
   }
 }

@@ -1,0 +1,11 @@
+﻿image: Ubuntu
+branches:
+  only:
+    - main
+    - develop
+environment:
+  # Don't report back to the mothership
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+platform: Any CPU
+build_script: 
+  - sh: ./build.sh --target=CI --verbosity=diagnostic

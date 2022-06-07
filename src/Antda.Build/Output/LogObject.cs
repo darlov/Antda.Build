@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
+using Antda.Build.Types;
 
 namespace Antda.Build.Output;
 
-public record LogObject(object? Value, [CallerArgumentExpression("Value")] string Title = "<None>")
+public record LogObject(object? Value, [CallerArgumentExpression("Value")] string Title = StringNone.Value, bool HumanizeTitle = true)
 {
   public static LogObject EmptyLine { get; } = new("<NewLine>");
-  
-  public override string ToString()
-  {
-    return KeyValuePair.Create(Title, Value).ToString();
-  }
+
+  public override string ToString() => string.Create(null, stackalloc char[256], $"[{Title}, {Value}]");
 }

@@ -14,7 +14,7 @@ public sealed class DotNetBuildTask : FrostingTask<DefaultBuildContext>
   {
     var searchPath = $"{context.Paths.Source}/{context.Patterns.Projects}";
     var projects = context.GetFiles(searchPath);
-    
+
     foreach (var project in projects)
     {
       context.DotNetBuild(project.FullPath, new DotNetCoreBuildSettings
@@ -23,7 +23,7 @@ public sealed class DotNetBuildTask : FrostingTask<DefaultBuildContext>
         NoRestore = true,
         MSBuildSettings = new DotNetMSBuildSettings
         {
-          Version = context.BuildVersion.SemVer,
+          Version = context.BuildVersion.SemVersion,
           InformationalVersion = context.BuildVersion.InformationalVersion
         }
       });

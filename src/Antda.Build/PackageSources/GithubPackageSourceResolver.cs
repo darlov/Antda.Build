@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace Antda.Build.PackageSources;
 
-public class GithubPackageSourceResolver: IPackageSourceResolver
+public class GithubPackageSourceResolver : IPackageSourceResolver
 {
   private readonly IConfiguration _configuration;
   private readonly ICakeContext _cakeContext;
@@ -26,17 +26,17 @@ public class GithubPackageSourceResolver: IPackageSourceResolver
       _cakeContext.Warning("Cannot resolve PushSourceUrl for {0} as RepositoryOwner is empty", config.PrefixName);
       return null;
     }
-    
+
     var packageSource = new PackageSource(config.PrefixName)
     {
-      PreRelease = config.PreRelease,
+      PreRelease = config.PreRelease
     };
 
     _configuration.GetSection(config.PrefixName).Bind(packageSource);
 
     packageSource.PushSourceUrl ??= $"https://nuget.pkg.github.com/{_githubOptions.RepositoryOwner}/index.json";
     packageSource.ApiKey ??= _githubOptions.GithubToken;
-    
+
     return packageSource;
   }
 }

@@ -2,7 +2,6 @@
 using Cake.Common.Diagnostics;
 using Cake.Common.IO;
 using Cake.Common.Tools.DotNet;
-using Cake.Core.IO;
 using Cake.Frosting;
 
 namespace Antda.Build.Tasks;

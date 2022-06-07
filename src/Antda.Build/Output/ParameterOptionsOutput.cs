@@ -7,7 +7,7 @@ namespace Antda.Build.Output;
 public class ParameterOptionsOutput : ILogObjectProvider<ParameterOptions>
 {
   private readonly IOptions<ParameterOptions> _options;
-  
+
   public ParameterOptionsOutput(IOptions<ParameterOptions> options)
   {
     _options = options;
@@ -23,11 +23,12 @@ public class ParameterOptionsOutput : ILogObjectProvider<ParameterOptions>
       new(target.ForceRun),
       new(target.RepositoryName),
       new(target.RepositoryOwner),
-      new(string.Join(", ", target.BranchesToRelease), nameof(target.BranchesToRelease))
+      new(target.ReleaseBranches),
+      new(target.PreReleaseBranches)
     };
   }
 
   public string Name => "Parameters";
-  
+
   public IEnumerable<LogObject> GetLogs() => GetLogs(_options.Value);
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Antda.Build.Context;
 using Cake.Common.Diagnostics;
 using Cake.Core;
@@ -12,6 +11,7 @@ namespace Antda.Build.BuildProviders;
 public class LocalBuildProvider : IBuildProvider
 {
   private readonly ICakeContext _context;
+
   public LocalBuildProvider(ICakeContext context, PathOptions buildOptions)
   {
     _context = context;
@@ -20,7 +20,6 @@ public class LocalBuildProvider : IBuildProvider
     try
     {
       gitRoot = context.GitFindRootFromPath(buildOptions.Root);
-     
     }
     catch (RepositoryNotFoundException)
     {
@@ -51,10 +50,10 @@ public class LocalBuildProvider : IBuildProvider
   public BuildProviderType Type => BuildProviderType.Local;
 
   public string BuildNumber => "-1";
-  
+
   public Repository Repository { get; }
-  
+
   public void UploadArtifact(FilePath path) => _context.Warning("Unable to upload build artifacts. Path: {0}", path);
 
-  public void UpdateBuildVersion(string buildVersion) => _context.Warning("Unable to update build number. Build Version: {0}", buildVersion);
+  public void UpdateBuildVersion(string buildVersion) => _context.Warning("Unable to update build version. Build Version: {0}", buildVersion);
 }

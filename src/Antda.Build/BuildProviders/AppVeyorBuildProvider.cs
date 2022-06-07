@@ -1,7 +1,4 @@
-﻿using Antda.Build.Context;
-using Cake.Common.Build;
-using Cake.Common.Build.AppVeyor;
-using Cake.Core;
+﻿using Cake.Common.Build.AppVeyor;
 using Cake.Core.IO;
 
 namespace Antda.Build.BuildProviders;
@@ -9,7 +6,7 @@ namespace Antda.Build.BuildProviders;
 public class AppVeyorBuildProvider : IBuildProvider
 {
   private readonly IAppVeyorProvider _appVeyorProvider;
-  
+
   public AppVeyorBuildProvider(IAppVeyorProvider appVeyorProvider)
   {
     _appVeyorProvider = appVeyorProvider;
@@ -19,8 +16,8 @@ public class AppVeyorBuildProvider : IBuildProvider
     Repository = new Repository(repositoryName, true)
     {
       BranchName = _appVeyorProvider.Environment.Repository.Branch,
-      IsPullRequest = _appVeyorProvider.Environment.PullRequest.IsPullRequest, 
-      IsTag = _appVeyorProvider.Environment.Repository.Tag.IsTag, 
+      IsPullRequest = _appVeyorProvider.Environment.PullRequest.IsPullRequest,
+      IsTag = _appVeyorProvider.Environment.Repository.Tag.IsTag,
       TagName = _appVeyorProvider.Environment.Repository.Tag.Name
     };
   }
@@ -29,7 +26,7 @@ public class AppVeyorBuildProvider : IBuildProvider
   public string BuildNumber { get; }
 
   public Repository Repository { get; }
-  
+
   public void UploadArtifact(FilePath path) => _appVeyorProvider.UploadArtifact(path);
 
   public void UpdateBuildVersion(string buildVersion) => _appVeyorProvider.UpdateBuildVersion(buildVersion);

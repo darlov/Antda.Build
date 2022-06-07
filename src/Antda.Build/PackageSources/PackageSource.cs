@@ -8,11 +8,10 @@ public class PackageSource
   }
 
   public string PrefixName { get; }
-  
+
   public string? PushSourceUrl { get; set; }
-  
+
   public bool PreRelease { get; set; }
 
   public string? ApiKey { get; set; }
-
 }

@@ -10,7 +10,7 @@ public static class LogObjectProviderServicesExtensions
   {
     var type = typeof(T);
     var genericInterface = typeof(ILogObjectProvider<>);
-    
+
     var definition = type.GetInterfaces().FirstOrDefault(m => m.IsGenericType && m.GetGenericTypeDefinition() == genericInterface);
     if (definition != null)
     {

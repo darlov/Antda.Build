@@ -19,9 +19,9 @@ public class NugetPackageSourceResolver : IPackageSourceResolver
     };
 
     _configuration.GetSection(config.PrefixName).Bind(packageSource);
-    
+
     packageSource.PushSourceUrl ??= "https://api.nuget.org/v3/index.json";
-    
+
     return packageSource;
   }
 }

@@ -19,14 +19,13 @@ public class PathOptionsOutput : ILogObjectProvider<PathOptions>
     {
       new(target.Root),
       new(target.Source),
-      new(target.ProjectFile),
+      new(target.ProjectFiles),
       new(target.Output),
       new(target.OutputNugetPackages)
     };
   }
 
   public string Name => "Paths";
-  
-  public IEnumerable<LogObject> GetLogs() => GetLogs(_pathOptions);
 
+  public IEnumerable<LogObject> GetLogs() => GetLogs(_pathOptions);
 }

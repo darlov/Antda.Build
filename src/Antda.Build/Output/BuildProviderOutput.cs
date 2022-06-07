@@ -1,19 +1,15 @@
 ﻿using System.Collections.Generic;
 using Antda.Build.BuildProviders;
-using Cake.Common.Diagnostics;
-using Cake.Core;
 
 namespace Antda.Build.Output;
 
 public class BuildProviderOutput : ILogObjectProvider<IBuildProvider>
 {
   private readonly IBuildProvider _buildProvider;
-  private readonly ICakeContext _context;
 
-  public BuildProviderOutput(IBuildProvider buildProvider, ICakeContext context)
+  public BuildProviderOutput(IBuildProvider buildProvider)
   {
     _buildProvider = buildProvider;
-    _context = context;
   }
 
   public IEnumerable<LogObject> GetLogs(IBuildProvider target)
@@ -27,11 +23,11 @@ public class BuildProviderOutput : ILogObjectProvider<IBuildProvider>
       new(target.Repository.IsTag),
       new(target.Repository.TagName),
       new(target.BuildNumber),
-      new(target.IsLocalBuild()),
+      new(target.IsLocalBuild())
     };
   }
 
   public string Name => "Build Provider";
-  
+
   public IEnumerable<LogObject> GetLogs() => GetLogs(_buildProvider);
 }

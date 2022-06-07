@@ -2,13 +2,13 @@
 
 public class BuildVersion
 {
-  public BuildVersion(string semVer, string informationalVersion)
+  public BuildVersion(string semVersion, string informationalVersion)
   {
-    SemVer = semVer;
+    SemVersion = semVersion;
     InformationalVersion = informationalVersion;
   }
 
-  public string SemVer { get; }
+  public string SemVersion { get; }
 
   public string InformationalVersion { get; }
 }

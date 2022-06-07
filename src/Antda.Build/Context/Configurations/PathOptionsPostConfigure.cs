@@ -1,4 +1,5 @@
-﻿using Cake.Core;
+﻿using System.Linq;
+using Cake.Core;
 using Cake.Core.IO;
 using Microsoft.Extensions.Options;
 
@@ -17,8 +18,17 @@ public class PathOptionsPostConfigure : IPostConfigureOptions<PathOptions>
   {
     options.Root = (string.IsNullOrEmpty(options.Root) ? _context.Environment.WorkingDirectory : options.Root).MakeAbsolute(_context.Environment).FullPath;
     options.Source = DirectoryPath.FromString(string.IsNullOrEmpty(options.Source) ? options.Root : options.Source).MakeAbsolute(options.Root).FullPath;
-    options.ProjectFile = DirectoryPath.FromString(options.Source).CombineWithFilePath(options.ProjectFile).FullPath;
     options.Output = DirectoryPath.FromString(options.Output).MakeAbsolute(options.Root).FullPath;
     options.OutputNugetPackages = DirectoryPath.FromString(options.OutputNugetPackages).MakeAbsolute(options.Output).FullPath;
+
+    if (options.ProjectFiles is { Count: > 0 })
+    {
+      var source = DirectoryPath.FromString(options.Source);
+      
+      options.ProjectFiles = options.ProjectFiles
+        .Select(p => source.CombineWithFilePath(p).FullPath)
+        .ToList()
+        .AsReadOnly();
+    }
   }
 }
