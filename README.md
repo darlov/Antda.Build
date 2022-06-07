@@ -6,6 +6,6 @@
 
 ## Build status
 
-| develop | master |
+| develop | main |
 |:--:|:--:|
-|[![Build status](https://ci.appveyor.com/api/projects/status/p94fjg2f2nyx066d/branch/develop?svg=true)](https://ci.appveyor.com/project/darlov/antda-build/branch/develop)|[![Build status](https://ci.appveyor.com/api/projects/status/p94fjg2f2nyx066d/branch/master?svg=true)](https://ci.appveyor.com/project/darlov/antda-build/branch/master)|
+|[![Build status](https://ci.appveyor.com/api/projects/status/p94fjg2f2nyx066d/branch/develop?svg=true)](https://ci.appveyor.com/project/darlov/antda-build/branch/main)|[![Build status](https://ci.appveyor.com/api/projects/status/p94fjg2f2nyx066d/branch/main?svg=true)](https://ci.appveyor.com/project/darlov/antda-build/branch/main)|
