@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>Latest</LangVersion>
+    <NoWarn>1701;1702;MSB3246</NoWarn>
+
+    <PackageId>$(AssemblyName)</PackageId>
+    <RepositoryUrl>https://github.com/darlov/Antda.Build.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Antda; Build</PackageTags>
+    <PackageProjectUrl>https://github.com/darlov/Antda.Build</PackageProjectUrl>
+    <Authors>Denis Arlovski</Authors>
+    <Company>Denis Arlovski</Company>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Cake.Common" Version="2.2.0" />
+    <PackageReference Include="Cake.DotNetTool.Module" Version="2.2.0" />
+    <PackageReference Include="Cake.FileHelpers" Version="5.0.0" />
+    <PackageReference Include="Cake.Frosting" Version="2.2.0" />
+    <PackageReference Include="Cake.Git" Version="2.0.0" />
+    <PackageReference Include="Humanizer.Core" Version="2.14.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="6.0.0" />
+  </ItemGroup>
+</Project>
