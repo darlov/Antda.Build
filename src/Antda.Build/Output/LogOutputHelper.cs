@@ -19,7 +19,7 @@ public static class LogOutputHelper
       .ToList();
 
     var maxLength = itemGroups.SelectMany(s => s.SelectMany(m => m.Select(d => d.NormalizedTitle.Length))).Max();
-    
+
     foreach (var itemGroup in itemGroups)
     {
       LogGroup(context, itemGroup.Key, maxLength);
@@ -29,7 +29,7 @@ public static class LogOutputHelper
       }
     }
   }
-  
+
   public static void Log(ICakeContext context, LogObject logObject, int padRightSize = 2)
   {
     if (logObject == LogObject.EmptyLine)
@@ -47,7 +47,7 @@ public static class LogOutputHelper
     var normalizedTitle = NormalizeTitle(title, humanizeTitle);
     Log(context, value, normalizedTitle, padRightSize);
   }
-  
+
   public static void Log(ICakeContext context, object? value, string title, int padRightSize = 2)
   {
     var paddedTitle = $"{title}".PadRight(padRightSize);
@@ -56,7 +56,7 @@ public static class LogOutputHelper
     {
       value = new EnumerableValueFormatter(enumerableValue);
     }
-    
+
     context.Information("{0}: {1}", paddedTitle, value);
   }
 
@@ -66,28 +66,28 @@ public static class LogOutputHelper
     if (padRightSize != 0)
     {
       var titleLength = normalizedTitle.Length + 2;
-      
-      var length = Math.Max((padRightSize - titleLength), 2);
+
+      var length = Math.Max(padRightSize - titleLength, 2);
       var startCount = length / 2;
 
       var startSpace = new string('-', startCount);
       var endSpace = new string('-', startCount + (padRightSize - (startCount + titleLength + startCount)));
       normalizedTitle = $"{startSpace} {normalizedTitle} {endSpace}";
     }
-    
+
     context.Information("{0}", normalizedTitle);
   }
-  
+
   private static string NormalizeTitle(string title, bool humanizeTitle)
   {
     string Humanize(string value) => value.Humanize(LetterCasing.Title);
 
     if (humanizeTitle)
     {
-      var parts = title.Split('.', StringSplitOptions.RemoveEmptyEntries);  
+      var parts = title.Split('.', StringSplitOptions.RemoveEmptyEntries);
 
-      return parts.Length > 2 
-        ? string.Join(" => ", parts.Skip(1).Select(Humanize)) 
+      return parts.Length > 2
+        ? string.Join(" => ", parts.Skip(1).Select(Humanize))
         : Humanize(parts.LastOrDefault() ?? title);
     }
 

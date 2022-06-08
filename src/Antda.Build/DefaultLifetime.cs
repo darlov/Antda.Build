@@ -29,11 +29,11 @@ public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
       AnsiConsole.Write(new FigletText(context.Parameters.Title).LeftAligned());
       AnsiConsole.WriteLine();
     }
-    
+
     context.BuildVersion = GetBuildVersion(context);
     context.BranchType = GetBranchType(context);
     context.IsMainRepository = $"{context.Parameters.RepositoryOwner}/{context.Parameters.RepositoryName}".Equals(_buildProvider.Repository.Name, StringComparison.OrdinalIgnoreCase);
-    
+
     if (context.IsMainRepository && !context.BuildProvider.Repository.IsPullRequest)
     {
       if (context.Parameters.PreReleaseBranches.Contains(context.BranchType))
@@ -82,7 +82,7 @@ public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
       (context.Patterns.MasterBranch, BranchType.Master),
       (context.Patterns.DevelopBranch, BranchType.Develop),
       (context.Patterns.ReleaseBranch, BranchType.Release),
-      (context.Patterns.HotfixBranch, BranchType.Hotfix),
+      (context.Patterns.HotfixBranch, BranchType.Hotfix)
     };
 
     foreach (var (pattern, type) in mapping)

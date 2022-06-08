@@ -37,7 +37,7 @@ public class DefaultBuildContext : FrostingContext
   public IBuildProvider BuildProvider { get; }
 
   public BuildVersion BuildVersion { get; set; } = null!;
-  
+
   public BuildPlatform BuildPlatform { get; }
 
   public BranchType BranchType { get; set; }

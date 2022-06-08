@@ -24,7 +24,7 @@ public class PathOptionsPostConfigure : IPostConfigureOptions<PathOptions>
     if (options.ProjectFiles is { Count: > 0 })
     {
       var source = DirectoryPath.FromString(options.Source);
-      
+
       options.ProjectFiles = options.ProjectFiles
         .Select(p => source.CombineWithFilePath(p).FullPath)
         .ToList()

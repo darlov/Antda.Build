@@ -19,9 +19,9 @@ public class ParameterOptions
   public bool UpdateBuildNumber { get; set; }
 
   public bool ForceRun { get; set; }
-  
+
   public bool UsePreRelease { get; set; }
-  
+
   public string? Title { get; set; }
 
   public string RepositoryName { get; set; } = string.Empty;
@@ -35,10 +35,8 @@ public class ParameterOptions
   public string Configuration { get; set; } = null!;
 
   [Required]
-  public IReadOnlyCollection<BranchType>  ReleaseBranches { get; set; } = null!;
-  
+  public IReadOnlyCollection<BranchType> ReleaseBranches { get; set; } = null!;
+
   [Required]
-  public IReadOnlyCollection<BranchType>  PreReleaseBranches { get; set; } = null!;
-
-
+  public IReadOnlyCollection<BranchType> PreReleaseBranches { get; set; } = null!;
 }

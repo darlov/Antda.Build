@@ -9,11 +9,11 @@ public class BuildVersion
     Version = version;
     Milestone = milestone;
   }
-  
+
   public string Milestone { get; }
 
   public string Version { get; }
-  
+
   public string SemVersion { get; }
 
   public string InformationalVersion { get; }

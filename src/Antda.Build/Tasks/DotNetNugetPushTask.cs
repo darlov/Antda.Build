@@ -28,7 +28,7 @@ public class DotNetNugetPushTask : FrostingTask<DefaultBuildContext>
     {
       return true;
     }
-    
+
     return !context.BuildProvider.IsLocalBuild() && context.PublishType is PublishType.Release or PublishType.PreRelease;
   }
 
@@ -44,12 +44,14 @@ public class DotNetNugetPushTask : FrostingTask<DefaultBuildContext>
         {
           PushNuget(context, source, packages);
         }
+
         break;
       case PublishType.PreRelease:
         foreach (var source in packageSources.Where(source => source.PreRelease))
         {
           PushNuget(context, source, packages);
         }
+
         break;
     }
   }

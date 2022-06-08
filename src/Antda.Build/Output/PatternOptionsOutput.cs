@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 
 namespace Antda.Build.Output;
 
-public class PatternOptionsOutput: ILogObjectProvider<PatternOptions>
+public class PatternOptionsOutput : ILogObjectProvider<PatternOptions>
 {
   private readonly PatternOptions _patternOptions;
 

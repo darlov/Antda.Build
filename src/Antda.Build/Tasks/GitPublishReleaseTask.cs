@@ -10,10 +10,7 @@ namespace Antda.Build.Tasks;
 [IsDependentOn(typeof(DotNetPackTask))]
 public class GitPublishReleaseTask : FrostingTask<DefaultBuildContext>
 {
-  public override bool ShouldRun(DefaultBuildContext context)
-  {
-    return !context.BuildProvider.IsLocalBuild() && context.PublishType == PublishType.Release;
-  }
+  public override bool ShouldRun(DefaultBuildContext context) => !context.BuildProvider.IsLocalBuild() && context.PublishType == PublishType.Release;
 
   public override void Run(DefaultBuildContext context)
   {
@@ -22,7 +19,7 @@ public class GitPublishReleaseTask : FrostingTask<DefaultBuildContext>
     {
       context.GitReleaseManagerAddAssets(context.Github.GithubToken, context.Github.RepositoryOwner, context.Github.RepositoryName, context.BuildVersion.Milestone, package.FullPath);
     }
-    
+
     context.GitReleaseManagerClose(context.Github.GithubToken, context.Github.RepositoryOwner, context.Github.RepositoryName, context.BuildVersion.Milestone);
   }
 }

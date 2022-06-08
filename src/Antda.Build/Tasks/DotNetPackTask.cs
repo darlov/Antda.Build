@@ -14,7 +14,7 @@ namespace Antda.Build.Tasks;
 [IsDependentOn(typeof(DotNetBuildTask))]
 public class DotNetPackTask : FrostingTask<DefaultBuildContext>
 {
-  public override bool ShouldRun(DefaultBuildContext context) 
+  public override bool ShouldRun(DefaultBuildContext context)
     => !context.BuildProvider.IsLocalBuild() || context.Parameters.ForceRun;
 
 

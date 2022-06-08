@@ -20,7 +20,7 @@ public class PathOptions
 
   [Required]
   public string Output { get; set; } = string.Empty;
-  
+
   public IReadOnlyCollection<string>? ProjectFiles { get; set; }
 
   [Required]

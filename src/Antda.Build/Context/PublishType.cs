@@ -2,7 +2,7 @@
 
 public enum PublishType
 {
-  None, 
+  None,
   Release,
   PreRelease
 }

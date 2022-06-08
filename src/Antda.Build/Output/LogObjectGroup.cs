@@ -11,6 +11,6 @@ public class LogObjectGroup
   }
 
   public string Name { get; }
-  
+
   public IReadOnlyCollection<LogObject> Items { get; }
 }

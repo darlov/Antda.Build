@@ -17,7 +17,7 @@ public class DefaultBuildContextOutput : ILogObjectProvider<DefaultBuildContext>
   public IEnumerable<LogObject> GetLogs(DefaultBuildContext target)
   {
     var version = Assembly.GetCallingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
-    
+
     return new LogObject[]
     {
       new(version, "Antda.Build Version", false),

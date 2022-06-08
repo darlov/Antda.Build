@@ -61,14 +61,14 @@ public class BuildHostBuilder
     _buildConfigurations[name] = value;
     return this;
   }
-  
+
   public BuildHostBuilder WithOptions(string name, params string[] values)
   {
     var strings = values ?? throw new ArgumentNullException(nameof(values));
-    
+
     for (var index = 0; index < strings.Length; index++)
     {
-      _buildConfigurations[$"{name}:{index}"] =  strings[index];
+      _buildConfigurations[$"{name}:{index}"] = strings[index];
     }
 
     return this;

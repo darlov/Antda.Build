@@ -51,7 +51,7 @@ public class DefaultStartup : IFrostingStartup
     services.UseLifetime<DefaultLifetime>();
     services.AddSingleton<IBuildProviderFactory, BuildProviderFactory>();
     services.AddSingleton(s => s.GetRequiredService<IBuildProviderFactory>().Create());
-    
+
     services.AddLogObjectProvider<ParameterOptionsOutput>();
     services.AddLogObjectProvider<PathOptionsOutput>();
     services.AddLogObjectProvider<PatternOptionsOutput>();

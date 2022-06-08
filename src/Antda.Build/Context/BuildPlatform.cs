@@ -18,9 +18,8 @@ public class BuildPlatform
   public string Framework { get; }
 
   public string Description { get; }
-  
-  public string Runtime { get; } 
-  
-  public string Architecture { get; }
 
+  public string Runtime { get; }
+
+  public string Architecture { get; }
 }
