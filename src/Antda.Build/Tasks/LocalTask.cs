@@ -7,6 +7,7 @@ namespace Antda.Build.Tasks;
 [IsDependentOn(typeof(CleanTask))]
 [IsDependentOn(typeof(DotNetRestoreTask))]
 [IsDependentOn(typeof(DotNetBuildTask))]
+[IsDependentOn(typeof(DotNetTestTask))]
 public class LocalTask : FrostingTask
 {
 }

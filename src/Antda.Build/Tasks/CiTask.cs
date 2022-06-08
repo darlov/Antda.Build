@@ -7,6 +7,7 @@ namespace Antda.Build.Tasks;
 [IsDependentOn(typeof(CleanTask))]
 [IsDependentOn(typeof(DotNetRestoreTask))]
 [IsDependentOn(typeof(DotNetBuildTask))]
+[IsDependentOn(typeof(DotNetTestTask))]
 [IsDependentOn(typeof(DotNetPackTask))]
 [IsDependentOn(typeof(UploadArtifactsTask))]
 [IsDependentOn(typeof(DotNetNugetPushTask))]
