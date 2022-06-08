@@ -37,7 +37,8 @@ public class DotNetPackTask : FrostingTask<DefaultBuildContext>
           MSBuildSettings = new DotNetMSBuildSettings
           {
             Version = context.BuildVersion.SemVersion,
-            InformationalVersion = context.BuildVersion.InformationalVersion
+            InformationalVersion = context.BuildVersion.InformationalVersion,
+            ContinuousIntegrationBuild = !context.BuildProvider.IsLocalBuild()
           }
         });
       }
