@@ -21,4 +21,6 @@ public class Repository
   public bool IsTag { get; init; }
 
   public string? TagName { get; init; }
+
+  public bool IsTagged => IsTag && !string.IsNullOrEmpty(TagName);
 }

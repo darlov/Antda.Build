@@ -4,11 +4,11 @@ using System.Linq;
 using Antda.Build.BuildProviders;
 using Antda.Build.Context;
 using Antda.Build.Types;
-using Cake.Common;
 using Cake.Common.Diagnostics;
 using Cake.Common.Tools.GitVersion;
 using Cake.Core;
 using Cake.Frosting;
+using Cake.Git;
 using Spectre.Console;
 
 namespace Antda.Build;
@@ -40,7 +40,7 @@ public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
       {
         context.PublishType = PublishType.PreRelease;
       }
-      else if (context.Parameters.ReleaseBranches.Contains(context.BranchType) && context.BuildProvider.Repository.IsTag && !string.IsNullOrEmpty(context.BuildProvider.Repository.TagName))
+      else if (context.Parameters.ReleaseBranches.Contains(context.BranchType) && context.BuildProvider.Repository.IsTagged)
       {
         context.PublishType = PublishType.Release;
       }
@@ -77,7 +77,29 @@ public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
 
   private BranchType GetBranchType(DefaultBuildContext context)
   {
-    var mapping = new List<(string Pattern, BranchType type)>
+    BranchType? branchType;
+
+    if (context.BuildProvider.Repository.IsTagged)
+    {
+      var branches = context.GitBranches(context.Paths.GitRoot);
+      branchType = GetBranchType(context, branches.Select(m => m.FriendlyName));
+    }
+    else
+    {
+      branchType = GetBranchType(context, _buildProvider.Repository.BranchName);
+    }
+
+    if (branchType == null)
+    {
+      return string.IsNullOrEmpty(_buildProvider.Repository.BranchName) || _buildProvider.Repository.BranchName == StringNone.Value ? BranchType.None : BranchType.Other;
+    }
+
+    return branchType.Value;
+  }
+
+  private BranchType? GetBranchType(DefaultBuildContext context, IEnumerable<string> branches)
+  {
+    var mappings = new List<(string Pattern, BranchType type)>
     {
       (context.Patterns.MasterBranch, BranchType.Master),
       (context.Patterns.DevelopBranch, BranchType.Develop),
@@ -85,14 +107,20 @@ public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
       (context.Patterns.HotfixBranch, BranchType.Hotfix)
     };
 
-    foreach (var (pattern, type) in mapping)
+    var branchNames = branches.ToList();
+    foreach (var mapping in mappings)
     {
-      if (pattern.StartsWith(_buildProvider.Repository.BranchName, StringComparison.OrdinalIgnoreCase))
+      foreach (var branchName in branchNames)
       {
-        return type;
+        if (branchName.StartsWith(mapping.Pattern, StringComparison.OrdinalIgnoreCase))
+        {
+          return mapping.type;
+        }
       }
     }
 
-    return string.IsNullOrEmpty(_buildProvider.Repository.BranchName) || _buildProvider.Repository.BranchName == StringNone.Value ? BranchType.None : BranchType.Other;
+    return null;
   }
+
+  private BranchType? GetBranchType(DefaultBuildContext context, params string[] branches) => GetBranchType(context, (IEnumerable<string>)branches);
 }

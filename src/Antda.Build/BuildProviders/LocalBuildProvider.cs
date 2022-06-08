@@ -16,20 +16,10 @@ public class LocalBuildProvider : IBuildProvider
   {
     _context = context;
 
-    DirectoryPath? gitRoot = null;
-    try
+    if (!string.IsNullOrEmpty(buildOptions.GitRoot))
     {
-      gitRoot = context.GitFindRootFromPath(buildOptions.Root);
-    }
-    catch (RepositoryNotFoundException)
-    {
-      context.Warning("Unable to find git repository.");
-    }
-
-    if (gitRoot != null)
-    {
-      var branch = context.GitBranchCurrent(gitRoot);
-      var tags = context.GitTags(gitRoot);
+      var branch = context.GitBranchCurrent(buildOptions.GitRoot);
+      var tags = context.GitTags(buildOptions.GitRoot);
       var tag = tags?.FirstOrDefault();
       var isTag = tag != null;
       var tagName = tag != null ? tag.FriendlyName : null;

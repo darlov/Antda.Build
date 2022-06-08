@@ -25,4 +25,6 @@ public class PathOptions
 
   [Required]
   public string OutputNugetPackages { get; set; } = string.Empty;
+
+  public string? GitRoot { get; set; }
 }

@@ -9,5 +9,4 @@ namespace Antda.Build.Tasks;
 [IsDependentOn(typeof(DotNetBuildTask))]
 public class LocalTask : FrostingTask
 {
-  
 }
