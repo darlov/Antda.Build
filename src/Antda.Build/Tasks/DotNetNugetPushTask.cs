@@ -60,11 +60,11 @@ public class DotNetNugetPushTask : FrostingTask<DefaultBuildContext>
   {
     if (string.IsNullOrEmpty(source.PushSourceUrl))
     {
-      context.Warning("Unable to push NuGet Packages to '{0}' as push source URL haven't been provided", source.PrefixName);
+      context.Warning("Unable to push NuGet Packages to '{0}' as push source URL haven't been provided. Env Name: {0}__{1}", source.PrefixName, nameof(source.PushSourceUrl));
     }
     else if (string.IsNullOrEmpty(source.ApiKey))
     {
-      context.Warning("Unable to push NuGet Packages to '{0}' as API key haven't been provided", source.PrefixName);
+      context.Warning("Unable to push NuGet Packages to '{0}' as API key haven't been provided. Env Name: {0}__{1}", source.PrefixName, nameof(source.ApiKey));
     }
     else
     {
