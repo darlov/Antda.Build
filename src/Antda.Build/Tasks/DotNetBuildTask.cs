@@ -1,4 +1,5 @@
-﻿using Cake.Common.IO;
+﻿using Antda.Build.BuildProviders;
+using Cake.Common.IO;
 using Cake.Common.Tools.DotNet;
 using Cake.Common.Tools.DotNet.MSBuild;
 using Cake.Common.Tools.DotNetCore.Build;
@@ -24,7 +25,8 @@ public sealed class DotNetBuildTask : FrostingTask<DefaultBuildContext>
         MSBuildSettings = new DotNetMSBuildSettings
         {
           Version = context.BuildVersion.SemVersion,
-          InformationalVersion = context.BuildVersion.InformationalVersion
+          InformationalVersion = context.BuildVersion.InformationalVersion,
+          ContinuousIntegrationBuild = !context.BuildProvider.IsLocalBuild()
         }
       });
     }
