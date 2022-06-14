@@ -4,6 +4,10 @@
 
 [![License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/darlov/Antda.Build/blob/main/LICENSE)
 
+| Stable | Pre-release |
+|:--:|:--:|
+|[![Nuget](https://img.shields.io/nuget/v/Antda.Build.svg)](https://www.nuget.org/packages/Antda.Build)|[![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Antda.Build)](https://www.nuget.org/packages/Antda.Build)|
+
 ## Build status
 
 | develop | main |

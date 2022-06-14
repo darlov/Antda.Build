@@ -4,7 +4,7 @@ using Cake.Common.Diagnostics;
 using Cake.Core;
 using Cake.Core.IO;
 using Cake.Git;
-using LibGit2Sharp;
+
 
 namespace Antda.Build.BuildProviders;
 
@@ -19,8 +19,8 @@ public class LocalBuildProvider : IBuildProvider
     if (!string.IsNullOrEmpty(buildOptions.GitRoot))
     {
       var branch = context.GitBranchCurrent(buildOptions.GitRoot);
-      var tags = context.GitTags(buildOptions.GitRoot);
-      var tag = tags?.FirstOrDefault();
+      var tags = context.GitTags(buildOptions.GitRoot, true);
+      var tag = tags?.FirstOrDefault(m => m.Target.Sha == branch.Tip.Sha);
       var isTag = tag != null;
       var tagName = tag != null ? tag.FriendlyName : null;
 
