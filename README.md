@@ -56,13 +56,13 @@ return BuildHostBuilder
 
 
 ### Create and publish new release
-**<span style="color:red">TODO</span>**
+**TODO**
 
 ### Build parameters
-**<span style="color:red">TODO</span>**
+**TODO**
 
 ### Environment variables
-**<span style="color:red">TODO</span>**
+**TODO**
 
 ### Tasks
 Here a list of all avaliable tasks to run:
@@ -80,4 +80,4 @@ Here a list of all avaliable tasks to run:
 - `Release-Notes`
 
 #### Task dependencies 
-**<span style="color:red">TODO</span>**
+**TODO**
