@@ -26,6 +26,7 @@ public class DotNetTestTask : FrostingTask<DefaultBuildContext>
       {
         context.DotNetTest(project.ToString(), new DotNetTestSettings
         {
+          Configuration = context.Parameters.Configuration,
           NoBuild = true,
           NoRestore = true
         });
