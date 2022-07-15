@@ -64,7 +64,8 @@ public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
     {
       var gitVersion = context.GitVersion(new GitVersionSettings
       {
-        OutputType = GitVersionOutput.Json
+        OutputType = GitVersionOutput.Json,
+        NoFetch = true
       });
 
       var milestone = context.Parameters.UsePreRelease ? gitVersion.SemVer : gitVersion.MajorMinorPatch;
