@@ -1,4 +1,5 @@
-﻿using Antda.Build.Context;
+﻿using System;
+using Antda.Build.Context;
 using Cake.Common.Build;
 using Cake.Core;
 using Microsoft.Extensions.Options;
@@ -19,16 +20,30 @@ public class BuildProviderFactory : IBuildProviderFactory
   public IBuildProvider Create()
   {
     var buildSystem = _context.BuildSystem();
-    if (buildSystem.IsLocalBuild)
-    {
-      return new LocalBuildProvider(_context, _pathOptions);
-    }
 
-    if (buildSystem.IsRunningOnAppVeyor)
-    {
-      return new AppVeyorBuildProvider(buildSystem.AppVeyor);
-    }
+    var type = GetProviderType(buildSystem);
 
-    return new LocalBuildProvider(_context, _pathOptions);
+    return type switch
+    {
+      BuildProviderType.Local => new LocalBuildProvider(_context, _pathOptions),
+      BuildProviderType.AppVeyor => new AppVeyorBuildProvider(buildSystem.AppVeyor),
+      BuildProviderType.AzurePipelines => new AzurePipelinesBuildProvider(buildSystem.AzurePipelines, _context, _pathOptions),
+      _ => throw new NotSupportedException($"The '{buildSystem.Provider & ~BuildProvider.Local}' build system is not supported.")
+    };
+  }
+
+  private BuildProviderType GetProviderType(BuildSystem buildSystem)
+  {
+    switch (buildSystem.Provider)
+    {
+      case BuildProvider.Local:
+        return BuildProviderType.Local;
+      case var type when (type & BuildProvider.AppVeyor) == BuildProvider.AppVeyor: 
+        return BuildProviderType.AppVeyor;
+      case var type when (type & BuildProvider.AzurePipelines) == BuildProvider.AzurePipelines: 
+        return BuildProviderType.AzurePipelines;
+      default:
+        return BuildProviderType.None;
+    }
   }
 }

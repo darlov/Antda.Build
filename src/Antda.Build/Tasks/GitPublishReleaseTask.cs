@@ -1,5 +1,4 @@
-﻿using System.IO.Compression;
-using Antda.Build.BuildProviders;
+﻿using Antda.Build.BuildProviders;
 using Antda.Build.Context;
 using Cake.Common.IO;
 using Cake.Common.Tools.GitReleaseManager;

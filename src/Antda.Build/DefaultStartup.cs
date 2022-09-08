@@ -52,19 +52,20 @@ public class DefaultStartup : IFrostingStartup
     services.AddSingleton<IBuildProviderFactory, BuildProviderFactory>();
     services.AddSingleton(s => s.GetRequiredService<IBuildProviderFactory>().Create());
 
-    services.AddLogObjectProvider<ParameterOptionsOutput>();
-    services.AddLogObjectProvider<PathOptionsOutput>();
-    services.AddLogObjectProvider<PatternOptionsOutput>();
-    services.AddLogObjectProvider<DefaultBuildContextOutput>();
-    services.AddLogObjectProvider<BuildProviderOutput>();
-    services.AddLogObjectProvider<PackageSourcesOutput>();
+    services
+      .AddLogObjectProvider<ParameterOptionsOutput>()
+      .AddLogObjectProvider<PathOptionsOutput>()
+      .AddLogObjectProvider<PatternOptionsOutput>()
+      .AddLogObjectProvider<DefaultBuildContextOutput>()
+      .AddLogObjectProvider<BuildProviderOutput>()
+      .AddLogObjectProvider<PackageSourcesOutput>();
   }
 
   protected virtual IEnumerable<string> GetTools()
   {
     return new[]
     {
-      "dotnet:?package=GitVersion.Tool&version=5.10.1",
+      "dotnet:?package=GitVersion.Tool&version=5.10.3",
       "dotnet:?package=GitReleaseManager.Tool&version=0.13.0"
     };
   }

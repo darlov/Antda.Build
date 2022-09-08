@@ -1,10 +1,12 @@
 ﻿using Antda.Build.Context;
 using Antda.Build.PackageSources;
+using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Antda.Build.Extensions;
 
+[PublicAPI]
 public static class BuildHostBuilderOptionsExtensions
 {
   public static BuildHostBuilder WithProjects(this BuildHostBuilder builder, params string[] projectFilePaths)

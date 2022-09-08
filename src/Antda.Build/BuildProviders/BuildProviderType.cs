@@ -4,5 +4,6 @@ public enum BuildProviderType
 {
   None,
   Local,
-  AppVeyor
+  AppVeyor,
+  AzurePipelines
 }

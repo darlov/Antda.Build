@@ -5,21 +5,20 @@ using Cake.Core;
 using Cake.Core.IO;
 using Cake.Git;
 
-
 namespace Antda.Build.BuildProviders;
 
 public class LocalBuildProvider : IBuildProvider
 {
   private readonly ICakeContext _context;
 
-  public LocalBuildProvider(ICakeContext context, PathOptions buildOptions)
+  public LocalBuildProvider(ICakeContext context, PathOptions pathOptions)
   {
     _context = context;
 
-    if (!string.IsNullOrEmpty(buildOptions.GitRoot))
+    if (!string.IsNullOrEmpty(pathOptions.GitRoot))
     {
-      var branch = context.GitBranchCurrent(buildOptions.GitRoot);
-      var tags = context.GitTags(buildOptions.GitRoot, true);
+      var branch = context.GitBranchCurrent(pathOptions.GitRoot);
+      var tags = context.GitTags(pathOptions.GitRoot, true);
       var tag = tags?.FirstOrDefault(m => m.Target.Sha == branch.Tip.Sha);
       var isTag = tag != null;
       var tagName = tag != null ? tag.FriendlyName : null;

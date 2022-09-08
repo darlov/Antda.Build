@@ -23,6 +23,7 @@ public class AppVeyorBuildProvider : IBuildProvider
   }
 
   public BuildProviderType Type => BuildProviderType.AppVeyor;
+  
   public string BuildNumber { get; }
 
   public Repository Repository { get; }
