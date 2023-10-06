@@ -9,12 +9,12 @@ namespace Antda.Build;
 
 public class BuildHostBuilder
 {
-  private readonly IDictionary<string, string> _buildConfigurations;
+  private readonly IDictionary<string, string?> _buildConfigurations;
   private readonly IList<Action<IServiceCollection>> _serviceConfigurations;
 
   private BuildHostBuilder()
   {
-    _buildConfigurations = new Dictionary<string, string>();
+    _buildConfigurations = new Dictionary<string, string?>();
     _serviceConfigurations = new List<Action<IServiceCollection>>();
 
     ConfigureServices(services =>

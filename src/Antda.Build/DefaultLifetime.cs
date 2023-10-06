@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Antda.Build.BuildProviders;
+using Antda.Build.BuildProvider;
 using Antda.Build.Context;
 using Antda.Build.Types;
 using Cake.Common.Diagnostics;
@@ -22,11 +22,11 @@ public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
     _buildProvider = buildProvider;
   }
 
-  public override void Setup(DefaultBuildContext context)
+  public override void Setup(DefaultBuildContext context, ISetupContext info)
   {
     if (!string.IsNullOrEmpty(context.Parameters.Title))
     {
-      AnsiConsole.Write(new FigletText(context.Parameters.Title).LeftAligned());
+      AnsiConsole.Write(new FigletText(context.Parameters.Title).LeftJustified());
       AnsiConsole.WriteLine();
     }
 
@@ -34,7 +34,7 @@ public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
     context.BranchType = GetBranchType(context);
     context.IsMainRepository = $"{context.Parameters.RepositoryOwner}/{context.Parameters.RepositoryName}".Equals(_buildProvider.Repository.Name, StringComparison.OrdinalIgnoreCase);
 
-    if (context.IsMainRepository && !context.BuildProvider.Repository.IsPullRequest)
+    if (context is { IsMainRepository: true, BuildProvider.Repository.IsPullRequest: false })
     {
       if (context.Parameters.PreReleaseBranches.Contains(context.BranchType))
       {
@@ -62,15 +62,18 @@ public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
   {
     if (context.BuildProvider.Repository.Exist)
     {
-      var gitVersion = context.GitVersion(new GitVersionSettings
+      context.GitVersion(new GitVersionSettings
       {
-        OutputType = GitVersionOutput.Json,
-        NoFetch = true
+        OutputType = GitVersionOutput.BuildServer,
+        NoFetch = true,
       });
 
-      var milestone = context.Parameters.UsePreRelease ? gitVersion.SemVer : gitVersion.MajorMinorPatch;
+      var semVer = context.BuildProvider.GetEnvironmentVariable("GitVersion_SemVer");
+      var majorMinorPatch = context.BuildProvider.GetEnvironmentVariable("GitVersion_MajorMinorPatch");
+      var informationalVersion = context.BuildProvider.GetEnvironmentVariable("GitVersion_InformationalVersion");
 
-      return new BuildVersion(milestone, gitVersion.MajorMinorPatch, gitVersion.SemVer, gitVersion.InformationalVersion);
+      var milestone = context.Parameters.UsePreRelease ? semVer : majorMinorPatch;
+      return new BuildVersion(milestone, majorMinorPatch, semVer, informationalVersion);
     }
 
     return new BuildVersion("0.1.0", "0.1.0", "0.1.0-beta.0", "0.1.0-beta.0+Branch.local.Sha.5a030134417cb4ee281bb74aaf61bb046f722272");

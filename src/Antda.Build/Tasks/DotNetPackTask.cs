@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Antda.Build.BuildProviders;
+using Antda.Build.BuildProvider;
 using Cake.Common.Diagnostics;
 using Cake.Common.IO;
 using Cake.Common.Tools.DotNet;
