@@ -6,4 +6,4 @@ branches:
     - /release/.*/
     - /hotfix/.*/
 build_script:
-  - sh: ./build.sh --target=CI --verbosity=diagnostic
+  - sh: ./build.sh --target=CI-Test --verbosity=diagnostic

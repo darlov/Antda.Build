@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Cake.Common.Diagnostics;
 using Cake.Core;
 using Cake.Core.IO;
@@ -18,7 +17,7 @@ public class PathOptionsPostConfigure : IPostConfigureOptions<PathOptions>
     _context = context;
   }
 
-  public void PostConfigure(string name, PathOptions options)
+  public void PostConfigure(string? name, PathOptions options)
   {
     options.Root = (string.IsNullOrEmpty(options.Root) ? _context.Environment.WorkingDirectory : options.Root).MakeAbsolute(_context.Environment).FullPath;
     options.Source = DirectoryPath.FromString(string.IsNullOrEmpty(options.Source) ? options.Root : options.Source).MakeAbsolute(options.Root).FullPath;

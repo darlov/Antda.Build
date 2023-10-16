@@ -1,4 +1,4 @@
-﻿using Antda.Build.BuildProviders;
+﻿using Antda.Build.BuildProvider;
 using Antda.Build.Context;
 using Cake.Core;
 using Cake.Frosting;

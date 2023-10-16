@@ -1,4 +1,4 @@
-﻿namespace Antda.Build.BuildProviders;
+﻿namespace Antda.Build.BuildProvider;
 
 public interface IBuildProviderFactory
 {

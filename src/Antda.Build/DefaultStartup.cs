@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Antda.Build.BuildProviders;
+using Antda.Build.BuildProvider;
+using Antda.Build.BuildProvider.Agents;
 using Antda.Build.Context;
 using Antda.Build.Context.Configurations;
 using Antda.Build.Output;
@@ -50,7 +51,10 @@ public class DefaultStartup : IFrostingStartup
     services.UseContext<DefaultBuildContext>();
     services.UseLifetime<DefaultLifetime>();
     services.AddSingleton<IBuildProviderFactory, BuildProviderFactory>();
-    services.AddSingleton(s => s.GetRequiredService<IBuildProviderFactory>().Create());
+    services.AddSingleton(m => m.GetRequiredService<IBuildProviderFactory>().Create());
+    services.AddSingleton<LocalBuildProvider>();
+    services.AddSingleton<GitHubActionsBuildProvider>();
+    services.AddSingleton<AppVeyorBuildProvider>();
 
     services.AddLogObjectProvider<ParameterOptionsOutput>();
     services.AddLogObjectProvider<PathOptionsOutput>();
@@ -64,8 +68,8 @@ public class DefaultStartup : IFrostingStartup
   {
     return new[]
     {
-      "dotnet:?package=GitVersion.Tool&version=5.10.1",
-      "dotnet:?package=GitReleaseManager.Tool&version=0.13.0"
+      "dotnet:?package=GitVersion.Tool&version=5.12.0",
+      "dotnet:?package=GitReleaseManager.Tool&version=0.15.0"
     };
   }
 }

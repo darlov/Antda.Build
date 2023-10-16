@@ -16,7 +16,7 @@ public class ParameterOptionsPostConfigure : IPostConfigureOptions<ParameterOpti
     _context = context;
   }
 
-  public void PostConfigure(string name, ParameterOptions options)
+  public void PostConfigure(string? name, ParameterOptions options)
   {
     options.UsePreRelease = _context.HasArgument("usePreRelease");
     options.ForceRun = _context.HasArgument("forceRun");

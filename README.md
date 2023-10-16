@@ -15,18 +15,18 @@
 |[![Build status](https://ci.appveyor.com/api/projects/status/p94fjg2f2nyx066d/branch/develop?svg=true)](https://ci.appveyor.com/project/darlov/antda-build/branch/develop)|[![Build status](https://ci.appveyor.com/api/projects/status/p94fjg2f2nyx066d/branch/main?svg=true)](https://ci.appveyor.com/project/darlov/antda-build/branch/main)|
 
 ## Requirements
-Only support `net6.0` as target framework.
+Supported `net6.0` and `net7.0` as target framework.
 
 ### Build platforms
 | Build platform      | Status          |
 |---------------------|-----------------|
 | AppVeyor            | ✔️Supported     |
+| GitHub Actions      | ✔️Supported     |
 | Azure Pipelines     | ❌️Not Supported |
 | Bamboo              | ❌️Not Supported |
 | Bitbucket Pipelines | ❌️Not Supported |
 | Bitrise             | ❌️Not Supported |
 | Continua CI         | ❌️Not Supported |
-| GitHub Actions      | ❌️Not Supported |
 | GitLab CI           | ❌️Not Supported |
 | GoCD                | ❌️Not Supported |
 | Jenkins             | ❌️Not Supported |

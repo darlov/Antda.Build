@@ -50,14 +50,21 @@ public static class LogOutputHelper
 
   public static void Log(ICakeContext context, object? value, string title, int padRightSize = 2)
   {
-    var paddedTitle = $"{title}".PadRight(padRightSize);
-
-    if (value != null && typeof(string) != value.GetType() && value is IEnumerable enumerableValue)
+    if (string.IsNullOrEmpty(title))
     {
-      value = new EnumerableValueFormatter(enumerableValue);
+      context.Information(string.Empty);
     }
+    else
+    {
+      var paddedTitle = $"{title}".PadRight(padRightSize);
 
-    context.Information("{0}: {1}", paddedTitle, value);
+      if (value != null && typeof(string) != value.GetType() && value is IEnumerable enumerableValue)
+      {
+        value = new EnumerableValueFormatter(enumerableValue);
+      }
+
+      context.Information("{0}: {1}", paddedTitle, value);
+    }
   }
 
   public static void LogGroup(ICakeContext context, string title, int padRightSize = 0, bool humanizeTitle = true)
@@ -80,6 +87,11 @@ public static class LogOutputHelper
 
   private static string NormalizeTitle(string title, bool humanizeTitle)
   {
+    if (LogObject.EmptyLine.Title.Equals(title))
+    {
+      return string.Empty;
+    }
+
     string Humanize(string value) => value.Humanize(LetterCasing.Title);
 
     if (humanizeTitle)

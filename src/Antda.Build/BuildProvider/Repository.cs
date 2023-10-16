@@ -1,6 +1,6 @@
 ﻿using Antda.Build.Types;
 
-namespace Antda.Build.BuildProviders;
+namespace Antda.Build.BuildProvider;
 
 public class Repository
 {

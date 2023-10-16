@@ -1,8 +1,8 @@
-﻿using Antda.Build.BuildProviders;
+﻿using Antda.Build.BuildProvider;
 using Cake.Common.IO;
 using Cake.Common.Tools.DotNet;
+using Cake.Common.Tools.DotNet.Build;
 using Cake.Common.Tools.DotNet.MSBuild;
-using Cake.Common.Tools.DotNetCore.Build;
 using Cake.Frosting;
 
 namespace Antda.Build.Tasks;
@@ -18,7 +18,7 @@ public sealed class DotNetBuildTask : FrostingTask<DefaultBuildContext>
 
     foreach (var project in projects)
     {
-      context.DotNetBuild(project.FullPath, new DotNetCoreBuildSettings
+      context.DotNetBuild(project.FullPath, new DotNetBuildSettings
       {
         Configuration = context.Parameters.Configuration,
         NoRestore = true,
