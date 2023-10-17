@@ -16,7 +16,5 @@ public interface IBuildProvider
 
   void UpdateBuildVersion(string buildVersion);
 
-  string GetEnvironmentVariable(string name);
-
   IReadOnlyCollection<string> Variables { get; }
 }

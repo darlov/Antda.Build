@@ -18,12 +18,10 @@ public class GitHubActionsBuildProvider : BaseBuildProvider
     private const string RefsTags = "refs/tags/";
     private const string RefsPull = "refs/pull/";
     private readonly IGitHubActionsProvider _gitHubActionsProvider;
-    private readonly ICakeContext _context;
-    
+
     public GitHubActionsBuildProvider(ICakeContext context) : base(context)
     {
-        _context = context;
-        _gitHubActionsProvider = _context.GitHubActions();
+        _gitHubActionsProvider = context.GitHubActions();
         this.BuildNumber = _gitHubActionsProvider.Environment.Workflow.RunNumber.ToString();
 
         var repositoryName = _gitHubActionsProvider.Environment.Workflow.Repository;
@@ -50,25 +48,6 @@ public class GitHubActionsBuildProvider : BaseBuildProvider
     public override void UpdateBuildVersion(string buildVersion)
     {
         _gitHubActionsProvider.Commands.SetStepSummary(buildVersion);
-    }
-
-    public override string GetEnvironmentVariable(string name)
-    {
-        var file = _context.FileSystem.GetFile(_gitHubActionsProvider.Environment.Runtime.EnvPath);
-        if (file.Exists)
-        {
-            using var fileStream = _context.FileSystem.GetFile(_gitHubActionsProvider.Environment.Runtime.EnvPath).OpenRead();
-
-            var found = EnvParser.ParseEnvironmentVariables(fileStream)
-                .FirstOrDefault(m => m.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
-
-            if (found != default)
-            {
-                return found.Value;
-            }
-        }
-
-        return base.GetEnvironmentVariable(name);
     }
 
     public override IReadOnlyCollection<string> Variables => new[]

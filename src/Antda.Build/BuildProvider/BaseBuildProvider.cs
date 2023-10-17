@@ -22,8 +22,6 @@ public abstract class BaseBuildProvider : IBuildProvider
   public abstract Task UploadArtifactAsync(FilePath path);
 
   public abstract void UpdateBuildVersion(string buildVersion);
-
-  public virtual string GetEnvironmentVariable(string name) => _context.Environment.GetEnvironmentVariable(name);
-
+  
   public abstract IReadOnlyCollection<string> Variables { get; }
 }

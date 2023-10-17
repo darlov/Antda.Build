@@ -65,15 +65,17 @@ public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
       context.GitVersion(new GitVersionSettings
       {
         OutputType = GitVersionOutput.BuildServer,
-        NoFetch = true,
+        NoFetch = true
       });
 
-      var semVer = context.BuildProvider.GetEnvironmentVariable("GitVersion_SemVer");
-      var majorMinorPatch = context.BuildProvider.GetEnvironmentVariable("GitVersion_MajorMinorPatch");
-      var informationalVersion = context.BuildProvider.GetEnvironmentVariable("GitVersion_InformationalVersion");
+      var version = context.GitVersion(new GitVersionSettings
+      {
+        OutputType = GitVersionOutput.Json,
+        NoFetch = true
+      });
 
-      var milestone = context.Parameters.UsePreRelease ? semVer : majorMinorPatch;
-      return new BuildVersion(milestone, majorMinorPatch, semVer, informationalVersion);
+      var milestone = context.Parameters.UsePreRelease ? version.SemVer : version.MajorMinorPatch;
+      return new BuildVersion(milestone, version.MajorMinorPatch, version.SemVer, version.InformationalVersion);
     }
 
     return new BuildVersion("0.1.0", "0.1.0", "0.1.0-beta.0", "0.1.0-beta.0+Branch.local.Sha.5a030134417cb4ee281bb74aaf61bb046f722272");
