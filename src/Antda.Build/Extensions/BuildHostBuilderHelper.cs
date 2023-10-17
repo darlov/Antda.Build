@@ -19,5 +19,5 @@ public static class BuildHostBuilderHelper
       .WithOption(ParameterOptions.ForceRunKey, bool.FalseString)
       .WithOptions(ParameterOptions.ReleaseBranchesKey, BranchType.Master.ToString(), BranchType.Release.ToString(), BranchType.Hotfix.ToString())
       .WithOptions(ParameterOptions.PreReleaseBranchesKey, BranchType.Develop.ToString())
-      .WithOption(VariableOptions.GithubTokenKey, "GITHUB_PAT");
+      .WithOption(VariableOptions.GithubTokenKey, "ANTDA_GITHUB_PAT");
 }
