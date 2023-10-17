@@ -5,9 +5,11 @@ name: .NET
 
 on:
   push:
-    branches: [ "develop", "main" ]
-  pull_request:
     branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop", "main" ]
+  release:
+    types: [ published ]
     
 env:
   ANTDA_GITHUB_PAT: ${{ secrets.ANTDA_GITHUB_PAT }}
