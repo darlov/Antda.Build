@@ -11,6 +11,7 @@ on:
     
 env:
   ANTDA_GITHUB_PAT: ${{ secrets.ANTDA_GITHUB_PAT }}
+  ANTDA_NUGET__ApiKey: ${{ secrets.ANTDA_NUGET__ApiKey }}
 
 jobs:
   build:
