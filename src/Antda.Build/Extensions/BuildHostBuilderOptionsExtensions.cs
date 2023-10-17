@@ -24,10 +24,10 @@ public static class BuildHostBuilderOptionsExtensions
   public static BuildHostBuilder UsePackageSource(this BuildHostBuilder builder, string prefixName, bool preRelease = false)
     => builder.UsePackageSourceResolver<GeneralPackageSourceResolver>(prefixName, null, preRelease);
 
-  public static BuildHostBuilder UseGithubPackageSource(this BuildHostBuilder builder, string prefixName = "Github", bool preRelease = true)
+  public static BuildHostBuilder UseGithubPackageSource(this BuildHostBuilder builder, string prefixName = "Antda_Github", bool preRelease = true)
     => builder.UsePackageSourceResolver<GithubPackageSourceResolver>(prefixName, null, preRelease);
 
-  public static BuildHostBuilder UseNugetPackageSource(this BuildHostBuilder builder, string prefixName = "Nuget", bool preRelease = false)
+  public static BuildHostBuilder UseNugetPackageSource(this BuildHostBuilder builder, string prefixName = "Antda_Nuget", bool preRelease = false)
     => builder.UsePackageSourceResolver<NugetPackageSourceResolver>(prefixName, null, preRelease);
 
   public static BuildHostBuilder UsePackageSourceResolver<T>(this BuildHostBuilder builder, string prefixName, string? pushSourceUrl, bool preRelease)
