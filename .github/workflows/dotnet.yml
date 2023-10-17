@@ -8,6 +8,9 @@ on:
     branches: [ "develop", "main" ]
   pull_request:
     branches: [ "develop" ]
+    
+env:
+  ANTDA_GITHUB_PAT: ${{ secrets.ANTDA_GITHUB_PAT }}
 
 jobs:
   build:
