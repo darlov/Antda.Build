@@ -1,6 +1,6 @@
 # Antda.Build
 
-`Antda.Build` is a set of build tasks based on [Cake.Frosting](https://cakebuild.net/docs/running-builds/runners/cake-frosting) library.
+`Antda.Build` is a set of tasks based on [Cake.Frosting](https://cakebuild.net/docs/running-builds/runners/cake-frosting) library.
 
 [![License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/darlov/Antda.Build/blob/main/LICENSE)
 
@@ -12,7 +12,7 @@
 
 | develop | main |
 |:--:|:--:|
-|[![Build status](https://github.com/darlov/Antda.Build/actions/workflows/dotnet.yml/badge.svg?branch=develop)](https://github.com/darlov/Antda.Build/actions/workflows/dotnet.yml?query=branch%3Adevelop)|[![Build status](https://github.com/darlov/Antda.Build/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/darlov/Antda.Build/actions/workflows/dotnet.yml?query=branch%3Amain)|
+|[![Build status](https://github.com/darlov/Antda.Build/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/darlov/Antda.Build/actions/workflows/build.yml?query=branch%3Adevelop)|[![Build status](https://github.com/darlov/Antda.Build/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/darlov/Antda.Build/actions/workflows/build.yml?query=branch%3Amain)|
 ## Requirements
 Supported `net6.0` and `net7.0` as target framework.
 
