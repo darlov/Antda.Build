@@ -37,8 +37,8 @@ public class DotNetPackTask : FrostingTask<DefaultBuildContext>
           {
             Version = context.BuildVersion.SemVersion,
             InformationalVersion = context.BuildVersion.InformationalVersion,
-            ContinuousIntegrationBuild = !context.BuildProvider.IsLocalBuild()
-          }
+            ContinuousIntegrationBuild = !context.BuildProvider.IsLocalBuild(),
+          }.WithProperty("Deterministic", bool.TrueString)
         });
       }
     }

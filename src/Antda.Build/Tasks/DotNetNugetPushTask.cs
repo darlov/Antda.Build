@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Antda.Build.BuildProvider;
 using Antda.Build.Context;
 using Antda.Build.PackageSources;
@@ -21,38 +23,20 @@ public class DotNetNugetPushTask : FrostingTask<DefaultBuildContext>
   {
     _packageSourceProvider = packageSourceProvider;
   }
-
+  
   public override bool ShouldRun(DefaultBuildContext context)
   {
-    if (context.Parameters.ForceRun)
-    {
-      return true;
-    }
-
-    return !context.BuildProvider.IsLocalBuild() && context.PublishType is PublishType.Release or PublishType.PreRelease;
+    return context.Parameters.ForceRun || !context.BuildProvider.IsLocalBuild() && context.PublishType is PublishType.Release or PublishType.PreRelease;
   }
 
   public override void Run(DefaultBuildContext context)
   {
     var packages = context.GetFiles(context.Paths.OutputNugetPackages + "/*.nupkg");
-    var packageSources = _packageSourceProvider.GetPackageSources();
+    var packageSources = GetPackageSources(context.PublishType);
 
-    switch (context.PublishType)
+    foreach (var source in packageSources)
     {
-      case PublishType.Release:
-        foreach (var source in packageSources.Where(source => !source.PreRelease))
-        {
-          PushNuget(context, source, packages);
-        }
-
-        break;
-      case PublishType.PreRelease:
-        foreach (var source in packageSources.Where(source => source.PreRelease))
-        {
-          PushNuget(context, source, packages);
-        }
-
-        break;
+      PushNuget(context, source, packages);
     }
   }
 
@@ -78,5 +62,16 @@ public class DotNetNugetPushTask : FrostingTask<DefaultBuildContext>
         });
       }
     }
+  }
+
+  private IEnumerable<PackageSource> GetPackageSources(PublishType publishType)
+  {
+    var packageSources = _packageSourceProvider.GetPackageSources();
+    return publishType switch
+    {
+      PublishType.Release => packageSources.Where(source => !source.PreRelease),
+      PublishType.PreRelease => packageSources.Where(source => source.PreRelease),
+      _ => throw new ArgumentOutOfRangeException(nameof(publishType), publishType, null)
+    };
   }
 }
