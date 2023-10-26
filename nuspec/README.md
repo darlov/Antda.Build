@@ -1,5 +1,5 @@
 
-`Antda.Build` is a set of tasks based on [Cake.Frosting](https://cakebuild.net/docs/running-builds/runners/cake-frosting) library. The library simplify the building, deployment and release process for `.Net` projects hosted on GitHub. 
+`Antda.Build` is a set of tasks based on [Cake.Frosting](https://cakebuild.net/docs/running-builds/runners/cake-frosting) library. This library simplify the building, deployment and release processes for `.Net` projects hosted on GitHub. 
 
 [![License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/darlov/Antda.Build/blob/main/LICENSE)
 
@@ -12,9 +12,9 @@
 - Version incrementing by [GitVersion](https://github.com/GitTools/GitVersion)
 
 ### Supported build platforms
-| Build platform | Status      |
-|----------------|-------------|
-| AppVeyor       | ✔️Supported |
+| Build platform |   Status    |
+|:--------------:|:-----------:|
+|    AppVeyor    | ✔️Supported |
 | GitHub Actions | ✔️Supported |
 
 
