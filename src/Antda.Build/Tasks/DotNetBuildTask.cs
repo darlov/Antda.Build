@@ -27,7 +27,7 @@ public sealed class DotNetBuildTask : FrostingTask<DefaultBuildContext>
           Version = context.BuildVersion.SemVersion,
           InformationalVersion = context.BuildVersion.InformationalVersion,
           ContinuousIntegrationBuild = !context.BuildProvider.IsLocalBuild()
-        }
+        }.WithProperty("Deterministic", context.BuildProvider.IsLocalBuild() ? bool.FalseString : bool.TrueString)
       });
     }
   }
