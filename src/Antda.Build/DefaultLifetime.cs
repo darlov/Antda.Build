@@ -65,7 +65,8 @@ public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
       context.GitVersion(new GitVersionSettings
       {
         OutputType = GitVersionOutput.BuildServer,
-        NoFetch = true
+        NoFetch = true,
+        
       });
 
       var version = context.GitVersion(new GitVersionSettings
