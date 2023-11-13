@@ -1,4 +1,5 @@
 ﻿using System.IO.Compression;
+using System.Linq;
 using Antda.Build.BuildProvider;
 using Antda.Build.Context;
 using Cake.Common.IO;
@@ -22,7 +23,9 @@ public class GitPublishReleaseTask : FrostingTask<DefaultBuildContext>
       NoLogo = true
     };
     
-    var packages = context.GetFiles(context.Paths.OutputNugetPackages + "/*");
+    var packages = context.GetFiles(context.Paths.OutputNugetPackages + "/*")
+      .OrderBy(m => m.FullPath);
+
     foreach (var package in packages)
     {
       context.GitReleaseManagerAddAssets(context.Github.GithubToken, context.Github.RepositoryOwner, context.Github.RepositoryName, context.BuildVersion.Milestone, package.FullPath, addSetting);
