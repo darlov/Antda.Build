@@ -31,7 +31,10 @@ public class DotNetNugetPushTask : FrostingTask<DefaultBuildContext>
 
   public override void Run(DefaultBuildContext context)
   {
-    var packages = context.GetFiles(context.Paths.OutputNugetPackages + "/*.nupkg");
+    var packages = context.GetFiles(context.Paths.OutputNugetPackages + "/*.nupkg")
+      .OrderBy(m => m.FullPath)
+      .ToList();
+    
     var packageSources = GetPackageSources(context.PublishType);
 
     foreach (var source in packageSources)
@@ -40,7 +43,7 @@ public class DotNetNugetPushTask : FrostingTask<DefaultBuildContext>
     }
   }
 
-  private void PushNuget(DefaultBuildContext context, PackageSource source, FilePathCollection packages)
+  private void PushNuget(DefaultBuildContext context, PackageSource source, IReadOnlyCollection<FilePath> packages)
   {
     if (string.IsNullOrEmpty(source.PushSourceUrl))
     {
