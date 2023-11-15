@@ -14,7 +14,7 @@
 |:--:|:--:|
 |[![Build status](https://github.com/darlov/Antda.Build/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/darlov/Antda.Build/actions/workflows/build.yml?query=branch%3Adevelop)|[![Build status](https://github.com/darlov/Antda.Build/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/darlov/Antda.Build/actions/workflows/build.yml?query=branch%3Amain)|
 ## Requirements
-Supported `net6.0` and `net7.0` as target framework.
+Supported `net6.0`, `net7.0` and `net8.0` as target framework.
 
 ### Build platforms
 | Build platform      | Status          |
