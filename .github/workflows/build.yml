@@ -5,7 +5,7 @@ name: Build
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "develop", "main" ]
   pull_request:
     branches: [ "develop", "main" ]
   release:
@@ -26,11 +26,11 @@ jobs:
         fetch-depth: 0
         fetch-tags: true
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
     - name: Expose GitHub Runtime
-      uses: actions/github-script@v6
+      uses: actions/github-script@v7
       with:
         script: |
           core.exportVariable("ACTIONS_RUNTIME_URL", process.env.ACTIONS_RUNTIME_URL);
