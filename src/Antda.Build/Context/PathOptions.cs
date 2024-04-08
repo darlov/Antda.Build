@@ -12,6 +12,7 @@ public class PathOptions
   public const string OutputKey = $"{SectionName}:{nameof(Output)}";
   public const string ProjectFilesKey = $"{SectionName}:{nameof(ProjectFiles)}";
   public const string OutputNugetPackagesKey = $"{SectionName}:{nameof(OutputNugetPackages)}";
+  public const string OutputTestCoverageKey = $"{SectionName}:{nameof(OutputTestCoverage)}";
 
   public string Root { get; set; } = string.Empty;
 
@@ -27,4 +28,7 @@ public class PathOptions
   public string OutputNugetPackages { get; set; } = string.Empty;
 
   public string? GitRoot { get; set; }
+
+  [Required]
+  public string OutputTestCoverage { get; set; } = string.Empty;
 }

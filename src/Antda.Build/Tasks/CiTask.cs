@@ -12,6 +12,4 @@ namespace Antda.Build.Tasks;
 [IsDependentOn(typeof(UploadArtifactsTask))]
 [IsDependentOn(typeof(DotNetNugetPushTask))]
 [IsDependentOn(typeof(GitPublishReleaseTask))]
-public class CiTask : FrostingTask
-{
-}
+public class CiTask : FrostingTask;

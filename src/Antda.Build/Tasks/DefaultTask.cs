@@ -4,6 +4,4 @@ namespace Antda.Build.Tasks;
 
 [TaskName("Default")]
 [IsDependentOn(typeof(LocalTask))]
-public class DefaultTask : FrostingTask
-{
-}
+public class DefaultTask : FrostingTask;

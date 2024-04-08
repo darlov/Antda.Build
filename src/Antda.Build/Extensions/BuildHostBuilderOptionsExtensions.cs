@@ -41,4 +41,11 @@ public static class BuildHostBuilderOptionsExtensions
         services.AddSingleton(provider => new PackageSourceConfig(provider.GetRequiredService<T>(), prefixName, pushSourceUrl, preRelease));
       });
   }
+
+  public static BuildHostBuilder CollectCoverage(this BuildHostBuilder builder, string collector = "XPlat Code Coverage")
+  {
+    return builder
+      .WithOption(ParameterOptions.CollectCoverageKey, bool.TrueString)
+      .WithOption(ParameterOptions.CollectorKey, collector);
+  }
 }

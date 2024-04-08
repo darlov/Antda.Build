@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Antda.Build.Parsers;
 using Cake.Common;
 using Cake.Common.Build;
 using Cake.Common.Build.GitHubActions;
@@ -19,10 +18,10 @@ public class GitHubActionsBuildProvider : BaseBuildProvider
     private const string RefsPull = "refs/pull/";
     private readonly IGitHubActionsProvider _gitHubActionsProvider;
 
-    public GitHubActionsBuildProvider(ICakeContext context) : base(context)
+    public GitHubActionsBuildProvider(ICakeContext context)
     {
         _gitHubActionsProvider = context.GitHubActions();
-        this.BuildNumber = _gitHubActionsProvider.Environment.Workflow.RunNumber.ToString();
+        BuildNumber = _gitHubActionsProvider.Environment.Workflow.RunNumber.ToString();
 
         var repositoryName = _gitHubActionsProvider.Environment.Workflow.Repository;
         var tagName = GetTagName(_gitHubActionsProvider.Environment.Workflow);
@@ -84,7 +83,7 @@ public class GitHubActionsBuildProvider : BaseBuildProvider
 
     private string GetBranchName(GitHubActionsWorkflowInfo workflow, ICakeContext context)
     {
-        const string refsHeads = "refs/heads/";
+        const string RefsHeads = "refs/heads/";
         var branchHeadRef = workflow.HeadRef;
         
         if (!string.IsNullOrEmpty(branchHeadRef))
@@ -94,9 +93,9 @@ public class GitHubActionsBuildProvider : BaseBuildProvider
 
         var branchRef = workflow.Ref;
         
-        if (branchRef.StartsWith(refsHeads, StringComparison.OrdinalIgnoreCase))
+        if (branchRef.StartsWith(RefsHeads, StringComparison.OrdinalIgnoreCase))
         {
-            return branchRef[refsHeads.Length..];
+            return branchRef[RefsHeads.Length..];
         }
         
         if (branchRef.StartsWith(RefsTags, StringComparison.OrdinalIgnoreCase))

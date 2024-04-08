@@ -11,7 +11,7 @@ public class GeneralPackageSourceResolver : IPackageSourceResolver
     _configuration = configuration;
   }
 
-  public PackageSource? ResolveConfiguration(PackageSourceConfig config)
+  public PackageSource ResolveConfiguration(PackageSourceConfig config)
   {
     var packageSource = new PackageSource(config.PrefixName)
     {
