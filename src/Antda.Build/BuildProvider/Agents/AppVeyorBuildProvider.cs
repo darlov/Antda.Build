@@ -11,7 +11,7 @@ public class AppVeyorBuildProvider : BaseBuildProvider
 {
   private readonly IAppVeyorProvider _appVeyorProvider;
 
-  public AppVeyorBuildProvider(ICakeContext context) : base(context)
+  public AppVeyorBuildProvider(ICakeContext context)
   {
     _appVeyorProvider = context.AppVeyor();
     BuildNumber = _appVeyorProvider.Environment.Build.Number.ToString();

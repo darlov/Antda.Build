@@ -7,6 +7,7 @@ return BuildHostBuilder
   .WithSource("src")
   .WithTitle("Antda.Build")
   .WithRepository("Antda.Build", "darlov")
+  .CollectCoverage()
   .UseGithubPackageSource()
   .UseNugetPackageSource()
   .Build()

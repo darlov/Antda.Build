@@ -69,7 +69,8 @@ public class DefaultStartup : IFrostingStartup
     return new[]
     {
       "dotnet:?package=GitVersion.Tool&version=5.12.0",
-      "dotnet:?package=GitReleaseManager.Tool&version=0.14.0"
+      "dotnet:?package=GitReleaseManager.Tool&version=0.17.0",
+      "dotnet:?package=dotnet-reportgenerator-globaltool&version=5.2.4"
     };
   }
 }

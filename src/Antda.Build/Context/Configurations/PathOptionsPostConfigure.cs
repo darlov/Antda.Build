@@ -23,6 +23,7 @@ public class PathOptionsPostConfigure : IPostConfigureOptions<PathOptions>
     options.Source = DirectoryPath.FromString(string.IsNullOrEmpty(options.Source) ? options.Root : options.Source).MakeAbsolute(options.Root).FullPath;
     options.Output = DirectoryPath.FromString(options.Output).MakeAbsolute(options.Root).FullPath;
     options.OutputNugetPackages = DirectoryPath.FromString(options.OutputNugetPackages).MakeAbsolute(options.Output).FullPath;
+    options.OutputTestCoverage = DirectoryPath.FromString(options.OutputTestCoverage).MakeAbsolute(options.Output).FullPath;
 
     try
     {

@@ -15,7 +15,7 @@ public class LocalBuildProvider : BaseBuildProvider
 {
   private readonly ICakeContext _context;
 
-  public LocalBuildProvider(ICakeContext context, IOptions<PathOptions> buildOptions) : base(context)
+  public LocalBuildProvider(ICakeContext context, IOptions<PathOptions> buildOptions)
   {
     _context = context;
 

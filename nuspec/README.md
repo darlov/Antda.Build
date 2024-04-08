@@ -40,12 +40,12 @@
 - Add build script in the repository root
   -  For Windows add `build.ps1` powreshell script with content:
   ```
-  dotnet run --project ./build/Build.csproj -- $args
+  dotnet run --project ./build/Build.csproj --configuration Release -- $args
   exit $LASTEXITCODE;
   ```
   - For Linux add `build.sh` bash script with content:
   ```bash
-  dotnet run --project ./build/Build.csproj -- "$@"
+  dotnet run --project ./build/Build.csproj --configuration Release -- "$@"
   ```
 For more documentation, follow the link there [Antda.Build](https://github.com/darlov/Antda.Build)
 
