@@ -69,7 +69,8 @@ public class GitHubActionsBuildProvider : BaseBuildProvider
         "GITHUB_BASE_REF",
         "RUNNER_OS",
         "RUNNER_ARCH",
-        "RUNNER_NAME"
+        "RUNNER_NAME",
+        "ACTIONS_RESULTS_URL"
     ];
 
     private bool GetIsPullRequest(GitHubActionsWorkflowInfo workflow) => workflow.Ref.Contains(RefsPull, StringComparison.OrdinalIgnoreCase);
