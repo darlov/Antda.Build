@@ -25,6 +25,5 @@ public class PathOptions
 
   public string? GitRoot { get; set; }
 
-  [Required]
-  public string OutputTestCoverage { get; set; } = string.Empty;
+  public required string OutputTestCoverage { get; set; } = string.Empty;
 }
