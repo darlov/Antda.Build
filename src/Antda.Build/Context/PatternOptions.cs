@@ -12,6 +12,7 @@ public class PatternOptions
   public const string DevelopBranchKey = $"{SectionName}:{nameof(DevelopBranch)}";
   public const string HotfixBranchKey = $"{SectionName}:{nameof(HotfixBranch)}";
   public const string ReleaseBranchKey = $"{SectionName}:{nameof(ReleaseBranch)}";
+  public const string CoverageResultKey = $"{SectionName}:{nameof(CoverageResult)}";
 
   public required string Projects { get; set; }
 
@@ -29,4 +30,7 @@ public class PatternOptions
 
   [Required]
   public string ReleaseBranch { get; set; } = null!;
+  
+  [Required]
+  public string CoverageResult { get; set; } = null!;
 }

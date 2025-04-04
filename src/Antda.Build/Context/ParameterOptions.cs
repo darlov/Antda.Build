@@ -13,6 +13,8 @@ public class ParameterOptions
   public const string RepositoryOwnerKey = $"{SectionName}:{nameof(RepositoryOwner)}";
   public const string ReleaseBranchesKey = $"{SectionName}:{nameof(ReleaseBranches)}";
   public const string PreReleaseBranchesKey = $"{SectionName}:{nameof(PreReleaseBranches)}";
+  public const string CollectCoverageKey = $"{SectionName}:{nameof(CollectCoverage)}";
+  public const string CollectorKey = $"{SectionName}:{nameof(Collector)}";
 
   public bool UpdateBuildNumber { get; set; }
 
@@ -25,6 +27,10 @@ public class ParameterOptions
   public string RepositoryName { get; set; } = string.Empty;
 
   public string RepositoryOwner { get; set; } = string.Empty;
+  
+  public bool CollectCoverage { get; set; }
+
+  public string Collector { get; set; } = string.Empty;
 
   public required string Target { get; set; }
 

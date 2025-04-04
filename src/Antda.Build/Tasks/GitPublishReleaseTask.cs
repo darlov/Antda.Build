@@ -5,6 +5,7 @@ using Cake.Common.IO;
 using Cake.Common.Tools.GitReleaseManager;
 using Cake.Common.Tools.GitReleaseManager.AddAssets;
 using Cake.Common.Tools.GitReleaseManager.Close;
+using Cake.Core.Diagnostics;
 using Cake.Frosting;
 
 namespace Antda.Build.Tasks;
@@ -32,7 +33,9 @@ public class GitPublishReleaseTask : FrostingTask<DefaultBuildContext>
 
     var closeSetting = new GitReleaseManagerCloseMilestoneSettings
     {
-      NoLogo = true
+      NoLogo = true,
+      Debug = context.Log.Verbosity == Verbosity.Verbose,
+      Verbose = context.Log.Verbosity == Verbosity.Diagnostic
     };
 
     context.GitReleaseManagerClose(context.Github.GithubToken, context.Github.RepositoryOwner, context.Github.RepositoryName, context.BuildVersion.Milestone, closeSetting);

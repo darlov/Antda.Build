@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Cake.Common.Diagnostics;
 using Cake.Common.IO;
 using Cake.Common.Tools.DotNet;
@@ -28,7 +29,9 @@ public class DotNetTestTask : FrostingTask<DefaultBuildContext>
         {
           Configuration = context.Parameters.Configuration,
           NoBuild = true,
-          NoRestore = true
+          NoRestore = true,
+          Collectors = context.Parameters.CollectCoverage ? [context.Parameters.Collector] : Array.Empty<string>(),
+          ResultsDirectory = context.Parameters.CollectCoverage ? context.Paths.OutputTestCoverage : null
         });
       }
     }

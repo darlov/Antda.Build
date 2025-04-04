@@ -57,10 +57,10 @@ public class DefaultStartup : IHostStartup
     services.AddLogObjectProvider<PackageSourcesOutput>();
   }
 
-  protected virtual IEnumerable<string> GetTools()
-    =>
-    [
-      "dotnet:?package=GitVersion.Tool&version=6.2.0",
-      "dotnet:?package=GitReleaseManager.Tool&version=0.20.0"
-    ];
+  protected virtual IEnumerable<string> GetTools() =>
+  [
+    "dotnet:?package=GitVersion.Tool&version=6.2.0",
+    "dotnet:?package=GitReleaseManager.Tool&version=0.20.0",
+    "dotnet:?package=dotnet-reportgenerator-globaltool&version=5.4.5"
+  ];
 }
