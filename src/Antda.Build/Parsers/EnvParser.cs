@@ -33,7 +33,7 @@ public static class EnvParser
         }
         else
         {
-          if (heredocValue == default)
+          if (heredocValue.IsEmpty)
           {
             heredocValue = line;
           }
@@ -64,13 +64,13 @@ public static class EnvParser
         
           if (heredocName.IsEmpty || heredocDelimiter.IsEmpty)
           {
-            throw new Exception($"Invalid format '{line}'. Name must not be empty and delimiter must not be empty");
+            throw new InvalidOperationException($"Invalid format '{line}'. Name must not be empty and delimiter must not be empty");
           }
         }
       }
     }
     
-    if (heredocDelimiter != default)
+    if (!heredocDelimiter.IsEmpty)
     {
       throw new Exception($"Invalid value. Matching delimiter not found '{heredocDelimiter}'");
     }

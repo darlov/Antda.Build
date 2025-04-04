@@ -13,15 +13,8 @@ using Spectre.Console;
 
 namespace Antda.Build;
 
-public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
+public class DefaultLifetime(IBuildProvider buildProvider) : FrostingLifetime<DefaultBuildContext>
 {
-  private readonly IBuildProvider _buildProvider;
-
-  public DefaultLifetime(IBuildProvider buildProvider)
-  {
-    _buildProvider = buildProvider;
-  }
-
   public override void Setup(DefaultBuildContext context, ISetupContext info)
   {
     if (!string.IsNullOrEmpty(context.Parameters.Title))
@@ -32,7 +25,7 @@ public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
 
     context.BuildVersion = GetBuildVersion(context);
     context.BranchType = GetBranchType(context);
-    context.IsMainRepository = $"{context.Parameters.RepositoryOwner}/{context.Parameters.RepositoryName}".Equals(_buildProvider.Repository.Name, StringComparison.OrdinalIgnoreCase);
+    context.IsMainRepository = $"{context.Parameters.RepositoryOwner}/{context.Parameters.RepositoryName}".Equals(buildProvider.Repository.Name, StringComparison.OrdinalIgnoreCase);
 
     if (context is { IsMainRepository: true, BuildProvider.Repository.IsPullRequest: false })
     {
@@ -48,9 +41,9 @@ public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
 
     if (context.Parameters.UpdateBuildNumber && !context.BuildProvider.IsLocalBuild())
     {
-      var version = $"{context.BuildVersion.SemVersion}_{_buildProvider.BuildNumber}";
+      var version = $"{context.BuildVersion.SemVersion}_{buildProvider.BuildNumber}";
       context.Information("Updating build version to {0}", version);
-      _buildProvider.UpdateBuildVersion(version);
+      buildProvider.UpdateBuildVersion(version);
     }
   }
 
@@ -93,12 +86,12 @@ public class DefaultLifetime : FrostingLifetime<DefaultBuildContext>
     }
     else
     {
-      branchType = GetBranchType(context, _buildProvider.Repository.BranchName);
+      branchType = GetBranchType(context, buildProvider.Repository.BranchName);
     }
 
     if (branchType == null)
     {
-      return string.IsNullOrEmpty(_buildProvider.Repository.BranchName) || _buildProvider.Repository.BranchName == StringNone.Value ? BranchType.None : BranchType.Other;
+      return string.IsNullOrEmpty(buildProvider.Repository.BranchName) || buildProvider.Repository.BranchName == StringNone.Value ? BranchType.None : BranchType.Other;
     }
 
     return branchType.Value;

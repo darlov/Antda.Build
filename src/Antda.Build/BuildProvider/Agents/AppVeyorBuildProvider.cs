@@ -39,8 +39,8 @@ public class AppVeyorBuildProvider : BaseBuildProvider
 
   public override void UpdateBuildVersion(string buildVersion) => _appVeyorProvider.UpdateBuildVersion(buildVersion);
 
-  public override IReadOnlyCollection<string> Variables => new[]
-  {
+  public override IReadOnlyCollection<string> Variables =>
+  [
     "APPVEYOR_API_URL",
     "APPVEYOR_BUILD_FOLDER",
     "APPVEYOR_BUILD_ID",
@@ -64,6 +64,6 @@ public class AppVeyorBuildProvider : BaseBuildProvider
     "APPVEYOR_SCHEDULED_BUILD",
     "CI",
     "CONFIGURATION",
-    "PLATFORM",
-  };
+    "PLATFORM"
+  ];
 }

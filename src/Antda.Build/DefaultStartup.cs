@@ -11,16 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Antda.Build;
 
-public class DefaultStartup : IFrostingStartup
+public class DefaultStartup : IHostStartup
 {
-  private readonly IConfiguration _configuration;
-
-  public DefaultStartup(IConfiguration configuration)
-  {
-    _configuration = configuration;
-  }
-
-  public void Configure(IServiceCollection services)
+  public void Configure(IServiceCollection services, IConfiguration configuration)
   {
     foreach (var toolUrl in GetTools())
     {
@@ -28,19 +21,19 @@ public class DefaultStartup : IFrostingStartup
     }
 
     services.AddOptions<ParameterOptions>()
-      .Bind(_configuration.GetSection(ParameterOptions.SectionName))
+      .Bind(configuration.GetSection(ParameterOptions.SectionName))
       .ValidateDataAnnotations();
 
     services.AddOptions<PathOptions>()
-      .Bind(_configuration.GetSection(PathOptions.SectionName))
+      .Bind(configuration.GetSection(PathOptions.SectionName))
       .ValidateDataAnnotations();
 
     services.AddOptions<PatternOptions>()
-      .Bind(_configuration.GetSection(PatternOptions.SectionName))
+      .Bind(configuration.GetSection(PatternOptions.SectionName))
       .ValidateDataAnnotations();
 
     services.AddOptions<VariableOptions>()
-      .Bind(_configuration.GetSection(VariableOptions.SectionName))
+      .Bind(configuration.GetSection(VariableOptions.SectionName))
       .ValidateDataAnnotations();
 
     services.ConfigureOptions<ParameterOptionsPostConfigure>();
@@ -64,13 +57,10 @@ public class DefaultStartup : IFrostingStartup
     services.AddLogObjectProvider<PackageSourcesOutput>();
   }
 
-  protected virtual IEnumerable<string> GetTools()
-  {
-    return new[]
-    {
-      "dotnet:?package=GitVersion.Tool&version=5.12.0",
-      "dotnet:?package=GitReleaseManager.Tool&version=0.17.0",
-      "dotnet:?package=dotnet-reportgenerator-globaltool&version=5.2.4"
-    };
-  }
+  protected virtual IEnumerable<string> GetTools() =>
+  [
+    "dotnet:?package=GitVersion.Tool&version=6.2.0",
+    "dotnet:?package=GitReleaseManager.Tool&version=0.20.0",
+    "dotnet:?package=dotnet-reportgenerator-globaltool&version=5.4.5"
+  ];
 }

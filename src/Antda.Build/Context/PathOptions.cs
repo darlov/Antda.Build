@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Antda.Build.Context;
 
@@ -16,19 +15,15 @@ public class PathOptions
 
   public string Root { get; set; } = string.Empty;
 
-  [Required]
-  public string Source { get; set; } = string.Empty;
+  public required string Source { get; set; }
 
-  [Required]
-  public string Output { get; set; } = string.Empty;
+  public required string Output { get; set; }
 
   public IReadOnlyCollection<string>? ProjectFiles { get; set; }
 
-  [Required]
-  public string OutputNugetPackages { get; set; } = string.Empty;
+  public required string OutputNugetPackages { get; set; }
 
   public string? GitRoot { get; set; }
 
-  [Required]
-  public string OutputTestCoverage { get; set; } = string.Empty;
+  public required string OutputTestCoverage { get; set; } = string.Empty;
 }

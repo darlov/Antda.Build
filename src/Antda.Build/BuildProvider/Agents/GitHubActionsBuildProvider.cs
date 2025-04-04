@@ -49,8 +49,8 @@ public class GitHubActionsBuildProvider : BaseBuildProvider
         _gitHubActionsProvider.Commands.SetStepSummary(buildVersion);
     }
 
-    public override IReadOnlyCollection<string> Variables => new[]
-    {
+    public override IReadOnlyCollection<string> Variables =>
+    [
         "CI",
         "HOME",
         "GITHUB_WORKFLOW",
@@ -69,8 +69,9 @@ public class GitHubActionsBuildProvider : BaseBuildProvider
         "GITHUB_BASE_REF",
         "RUNNER_OS",
         "RUNNER_ARCH",
-        "RUNNER_NAME"
-    };
+        "RUNNER_NAME",
+        "ACTIONS_RESULTS_URL"
+    ];
 
     private bool GetIsPullRequest(GitHubActionsWorkflowInfo workflow) => workflow.Ref.Contains(RefsPull, StringComparison.OrdinalIgnoreCase);
 

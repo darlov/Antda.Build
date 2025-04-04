@@ -3,18 +3,11 @@ using Microsoft.Extensions.Options;
 
 namespace Antda.Build.Context.Configurations;
 
-public class GithubOptionsConfigure : IConfigureOptions<GithubOptions>
+public class GithubOptionsConfigure(ICakeContext context, IOptions<ParameterOptions> parameterOptions, IOptions<VariableOptions> variableOptions)
+  : IConfigureOptions<GithubOptions>
 {
-  private readonly ICakeContext _context;
-  private readonly ParameterOptions _parameterOptions;
-  private readonly VariableOptions _variableOptions;
-
-  public GithubOptionsConfigure(ICakeContext context, IOptions<ParameterOptions> parameterOptions, IOptions<VariableOptions> variableOptions)
-  {
-    _context = context;
-    _variableOptions = variableOptions.Value;
-    _parameterOptions = parameterOptions.Value;
-  }
+  private readonly ParameterOptions _parameterOptions = parameterOptions.Value;
+  private readonly VariableOptions _variableOptions = variableOptions.Value;
 
   public void Configure(GithubOptions options)
   {
@@ -23,7 +16,7 @@ public class GithubOptionsConfigure : IConfigureOptions<GithubOptions>
 
     if (!string.IsNullOrEmpty(_variableOptions.GithubToken))
     {
-      options.GithubToken = _context.Environment.GetEnvironmentVariable(_variableOptions.GithubToken);
+      options.GithubToken = context.Environment.GetEnvironmentVariable(_variableOptions.GithubToken);
     }
   }
 }

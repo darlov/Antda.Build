@@ -6,23 +6,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Antda.Build.BuildProvider;
 
-public class BuildProviderFactory : IBuildProviderFactory
+public class BuildProviderFactory(ICakeContext context, IServiceProvider serviceProvider) : IBuildProviderFactory
 {
-  private readonly ICakeContext _context;
-  private readonly IServiceProvider _serviceProvider;
-
-  public BuildProviderFactory(ICakeContext context, IServiceProvider serviceProvider)
-  {
-    _context = context;
-    _serviceProvider = serviceProvider;
-  }
-
   public IBuildProvider Create() =>
-    _context.BuildSystem() switch
+    context.BuildSystem() switch
     {
-      { IsLocalBuild: true } => _serviceProvider.GetRequiredService<LocalBuildProvider>(),
-      { IsRunningOnAppVeyor: true } => _serviceProvider.GetRequiredService<AppVeyorBuildProvider>(),
-      { IsRunningOnGitHubActions: true } => _serviceProvider.GetRequiredService<GitHubActionsBuildProvider>(),
+      { IsLocalBuild: true } => serviceProvider.GetRequiredService<LocalBuildProvider>(),
+      { IsRunningOnAppVeyor: true } => serviceProvider.GetRequiredService<AppVeyorBuildProvider>(),
+      { IsRunningOnGitHubActions: true } => serviceProvider.GetRequiredService<GitHubActionsBuildProvider>(),
       _ => throw new InvalidOperationException("The current build provider is not supported.")
     };
 }

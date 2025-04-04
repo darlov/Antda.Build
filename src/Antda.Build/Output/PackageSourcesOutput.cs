@@ -3,15 +3,8 @@ using Antda.Build.PackageSources;
 
 namespace Antda.Build.Output;
 
-public class PackageSourcesOutput : ILogObjectProvider<IEnumerable<PackageSource>>
+public class PackageSourcesOutput(IPackageSourceProvider packageSourceProvider) : ILogObjectProvider<IEnumerable<PackageSource>>
 {
-  private readonly IPackageSourceProvider _packageSourceProvider;
-
-  public PackageSourcesOutput(IPackageSourceProvider packageSourceProvider)
-  {
-    _packageSourceProvider = packageSourceProvider;
-  }
-
   public IEnumerable<LogObject> GetLogs(IEnumerable<PackageSource> targets)
   {
     foreach (var source in targets)
@@ -24,5 +17,5 @@ public class PackageSourcesOutput : ILogObjectProvider<IEnumerable<PackageSource
 
   public string Name => "Package Sources";
 
-  public IEnumerable<LogObject> GetLogs() => GetLogs(_packageSourceProvider.GetPackageSources());
+  public IEnumerable<LogObject> GetLogs() => GetLogs(packageSourceProvider.GetPackageSources());
 }

@@ -2,16 +2,9 @@
 
 namespace Antda.Build.PackageSources;
 
-public class GeneralPackageSourceResolver : IPackageSourceResolver
+public class GeneralPackageSourceResolver(IConfiguration configuration) : IPackageSourceResolver
 {
-  private readonly IConfiguration _configuration;
-
-  public GeneralPackageSourceResolver(IConfiguration configuration)
-  {
-    _configuration = configuration;
-  }
-
-  public PackageSource ResolveConfiguration(PackageSourceConfig config)
+  public PackageSource? ResolveConfiguration(PackageSourceConfig config)
   {
     var packageSource = new PackageSource(config.PrefixName)
     {
@@ -19,7 +12,7 @@ public class GeneralPackageSourceResolver : IPackageSourceResolver
       PushSourceUrl = config.PushSourceUrl
     };
 
-    _configuration.GetSection(config.PrefixName).Bind(packageSource);
+    configuration.GetSection(config.PrefixName).Bind(packageSource);
 
     return packageSource;
   }

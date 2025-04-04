@@ -1,23 +1,12 @@
 ﻿namespace Antda.Build.PackageSources;
 
-public class PackageSourceConfig
+public class PackageSourceConfig(IPackageSourceResolver resolver, string prefixName, string? pushSourceUrl, bool preRelease)
 {
-  private readonly IPackageSourceResolver _resolver;
+  public string PrefixName => prefixName;
 
-  public PackageSourceConfig(IPackageSourceResolver resolver, string prefixName, string? pushSourceUrl, bool preRelease)
-  {
-    _resolver = resolver;
+  public string? PushSourceUrl => pushSourceUrl;
 
-    PrefixName = prefixName;
-    PushSourceUrl = pushSourceUrl;
-    PreRelease = preRelease;
-  }
+  public bool PreRelease => preRelease;
 
-  public string PrefixName { get; }
-
-  public string? PushSourceUrl { get; }
-
-  public bool PreRelease { get; }
-
-  public PackageSource? Resolve() => _resolver.ResolveConfiguration(this);
+  public PackageSource? Resolve() => resolver.ResolveConfiguration(this);
 }

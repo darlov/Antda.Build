@@ -2,15 +2,9 @@
 
 namespace Antda.Build.Output;
 
-public class LogObjectGroup
+public class LogObjectGroup(string name, IReadOnlyCollection<LogObject> items)
 {
-  public LogObjectGroup(string name, IReadOnlyCollection<LogObject> items)
-  {
-    Name = name;
-    Items = items;
-  }
+  public string Name => name;
 
-  public string Name { get; }
-
-  public IReadOnlyCollection<LogObject> Items { get; }
+  public IReadOnlyCollection<LogObject> Items => items;
 }

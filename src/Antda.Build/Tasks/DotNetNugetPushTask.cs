@@ -15,15 +15,8 @@ namespace Antda.Build.Tasks;
 
 [TaskName("DotNet-Nuget-Push")]
 [IsDependentOn(typeof(DotNetPackTask))]
-public class DotNetNugetPushTask : FrostingTask<DefaultBuildContext>
+public class DotNetNugetPushTask(IPackageSourceProvider packageSourceProvider) : FrostingTask<DefaultBuildContext>
 {
-  private readonly IPackageSourceProvider _packageSourceProvider;
-
-  public DotNetNugetPushTask(IPackageSourceProvider packageSourceProvider)
-  {
-    _packageSourceProvider = packageSourceProvider;
-  }
-  
   public override bool ShouldRun(DefaultBuildContext context)
   {
     return context.Parameters.ForceRun || !context.BuildProvider.IsLocalBuild() && context.PublishType is PublishType.Release or PublishType.PreRelease;
@@ -69,7 +62,7 @@ public class DotNetNugetPushTask : FrostingTask<DefaultBuildContext>
 
   private IEnumerable<PackageSource> GetPackageSources(PublishType publishType)
   {
-    var packageSources = _packageSourceProvider.GetPackageSources();
+    var packageSources = packageSourceProvider.GetPackageSources();
     return publishType switch
     {
       PublishType.Release => packageSources.Where(source => !source.PreRelease),

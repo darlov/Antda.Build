@@ -14,8 +14,7 @@ public class PatternOptions
   public const string ReleaseBranchKey = $"{SectionName}:{nameof(ReleaseBranch)}";
   public const string CoverageResultKey = $"{SectionName}:{nameof(CoverageResult)}";
 
-  [Required]
-  public string Projects { get; set; } = null!;
+  public required string Projects { get; set; }
 
   [Required]
   public string TestProjects { get; set; } = null!;

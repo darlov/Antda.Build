@@ -1,13 +1,8 @@
 ﻿namespace Antda.Build.PackageSources;
 
-public class PackageSource
+public class PackageSource(string prefixName)
 {
-  public PackageSource(string prefixName)
-  {
-    PrefixName = prefixName;
-  }
-
-  public string PrefixName { get; }
+  public string PrefixName { get; } = prefixName;
 
   public string? PushSourceUrl { get; set; }
 
