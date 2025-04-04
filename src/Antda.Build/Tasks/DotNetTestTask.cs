@@ -16,7 +16,7 @@ public class DotNetTestTask : FrostingTask<DefaultBuildContext>
     var searchPath = $"{context.Paths.Source}/{context.Patterns.TestProjects}";
     var projects = context.GetFiles(searchPath).ToList();
 
-    if (!projects.Any())
+    if (projects.Count == 0)
     {
       context.Information("The test project files are not found by the pattern {0}", searchPath);
     }

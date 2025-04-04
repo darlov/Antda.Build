@@ -1,25 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
-using Cake.Common.Build;
 using Cake.Frosting;
 
 namespace Antda.Build.Output;
 
-public class DefaultBuildContextOutput : ILogObjectProvider<DefaultBuildContext>
+public class DefaultBuildContextOutput(IFrostingContext defaultBuildContext) : ILogObjectProvider<DefaultBuildContext>
 {
-  private readonly DefaultBuildContext _defaultBuildContext;
-
-  public DefaultBuildContextOutput(IFrostingContext defaultBuildContext)
-  {
-    _defaultBuildContext = (DefaultBuildContext)defaultBuildContext;
-  }
+  private readonly DefaultBuildContext _defaultBuildContext = (DefaultBuildContext)defaultBuildContext;
 
   public IEnumerable<LogObject> GetLogs(DefaultBuildContext target)
   {
     var version = Assembly.GetCallingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
 
-    return new LogObject[]
-    {
+    return
+    [
       new(version, "Antda.Build Version", false),
       new(target.IsMainRepository),
       new(target.PublishType),
@@ -32,7 +26,7 @@ public class DefaultBuildContextOutput : ILogObjectProvider<DefaultBuildContext>
       new(target.BuildPlatform.Runtime),
       new(target.BuildPlatform.Architecture),
       new(target.BuildPlatform.Framework)
-    };
+    ];
   }
 
   public string Name => "Build Context";

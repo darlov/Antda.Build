@@ -9,29 +9,27 @@ namespace Antda.Build;
 
 public class BuildHostBuilder
 {
-  private readonly IDictionary<string, string?> _buildConfigurations;
-  private readonly IList<Action<IServiceCollection>> _serviceConfigurations;
+  private readonly Dictionary<string, string?> _buildConfigurations = new();
+  private readonly List<Action<IServiceCollection>> _serviceConfigurations = [];
 
   private BuildHostBuilder()
-  {
-    _buildConfigurations = new Dictionary<string, string?>();
-    _serviceConfigurations = new List<Action<IServiceCollection>>();
-
-    ConfigureServices(services =>
-    {
-      var configuration = new ConfigurationBuilder()
-        .AddInMemoryCollection(_buildConfigurations)
-        .AddEnvironmentVariables()
-        .Build();
-
-      services.AddSingleton<IConfiguration>(configuration);
-      var startup = new DefaultStartup(configuration);
-      startup.Configure(services);
-    });
-  }
+  { }
 
   public static BuildHostBuilder CreateDefault()
-    => BuildHostBuilderHelper.ConfigureDefaults(new BuildHostBuilder());
+  {
+    var builder = new BuildHostBuilder();
+    builder.ConfigureDefaultServices<DefaultStartup>();
+
+    return BuildHostBuilderHelper.ConfigureDefaults(builder);
+  }
+
+  public static BuildHostBuilder CreateDefault<T>() where T : IHostStartup, new()
+  {
+    var builder = new BuildHostBuilder();
+    builder.ConfigureDefaultServices<T>();
+
+    return BuildHostBuilderHelper.ConfigureDefaults(builder);
+  }
 
   public BuildHostBuilder ConfigureServices(Action<IServiceCollection> services)
   {
@@ -72,5 +70,20 @@ public class BuildHostBuilder
     }
 
     return this;
+  }
+
+  private void ConfigureDefaultServices<T>() where T : IHostStartup, new()
+  {
+    ConfigureServices(services =>
+    {
+      var configuration = new ConfigurationBuilder()
+        .AddInMemoryCollection(_buildConfigurations)
+        .AddEnvironmentVariables()
+        .Build();
+
+      services.AddSingleton<IConfiguration>(configuration);
+      var startup = new T();
+      startup.Configure(services, configuration);
+    });
   }
 }

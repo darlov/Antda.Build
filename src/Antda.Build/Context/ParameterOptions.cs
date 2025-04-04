@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 
 namespace Antda.Build.Context;
 
@@ -28,15 +26,11 @@ public class ParameterOptions
 
   public string RepositoryOwner { get; set; } = string.Empty;
 
-  [Required]
-  public string Target { get; set; } = null!;
+  public required string Target { get; set; }
 
-  [Required]
-  public string Configuration { get; set; } = null!;
+  public required string Configuration { get; set; }
 
-  [Required]
-  public IReadOnlyCollection<BranchType> ReleaseBranches { get; set; } = null!;
+  public required IReadOnlyCollection<BranchType> ReleaseBranches { get; set; }
 
-  [Required]
-  public IReadOnlyCollection<BranchType> PreReleaseBranches { get; set; } = null!;
+  public required IReadOnlyCollection<BranchType> PreReleaseBranches { get; set; }
 }

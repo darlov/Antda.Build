@@ -1,20 +1,12 @@
 ﻿namespace Antda.Build.Context;
 
-public class BuildVersion
+public class BuildVersion(string milestone, string version, string semVersion, string informationalVersion)
 {
-  public BuildVersion(string milestone, string version, string semVersion, string informationalVersion)
-  {
-    SemVersion = semVersion;
-    InformationalVersion = informationalVersion;
-    Version = version;
-    Milestone = milestone;
-  }
+  public string Milestone { get; } = milestone;
 
-  public string Milestone { get; }
+  public string Version { get; } = version;
 
-  public string Version { get; }
+  public string SemVersion { get; } = semVersion;
 
-  public string SemVersion { get; }
-
-  public string InformationalVersion { get; }
+  public string InformationalVersion { get; } = informationalVersion;
 }

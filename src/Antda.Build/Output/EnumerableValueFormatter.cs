@@ -3,23 +3,16 @@ using System.Text;
 
 namespace Antda.Build.Output;
 
-public class EnumerableValueFormatter
+public class EnumerableValueFormatter(IEnumerable values)
 {
-  private readonly IEnumerable _values;
-
-  public EnumerableValueFormatter(IEnumerable values)
-  {
-    _values = values;
-  }
-
-  public override string? ToString()
+  public override string ToString()
   {
     var sb = new StringBuilder();
     var count = 0;
 
     sb.Append('[');
 
-    foreach (var value in _values)
+    foreach (var value in values)
     {
       if (count > 0)
       {

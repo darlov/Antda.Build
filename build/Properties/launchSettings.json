@@ -3,7 +3,7 @@
     "Build": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "workingDirectory": "../../../..",
+
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"
       }

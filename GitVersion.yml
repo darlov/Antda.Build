@@ -2,13 +2,15 @@ branches:
   master:
     regex: main
     mode: ContinuousDelivery
-    tag:
+    label: ''
     increment: Patch
-    prevent-increment-of-merged-branch-version: true
+    prevent-increment:
+      of-merged-branch: true
     track-merge-target: false
   develop:
     mode: ContinuousDeployment
-    tag: alpha
+    label: alpha
     increment: Minor
-    prevent-increment-of-merged-branch-version: false
+    prevent-increment:
+      of-merged-branch: false
     track-merge-target: true

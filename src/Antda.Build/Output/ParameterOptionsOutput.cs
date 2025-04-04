@@ -4,19 +4,12 @@ using Microsoft.Extensions.Options;
 
 namespace Antda.Build.Output;
 
-public class ParameterOptionsOutput : ILogObjectProvider<ParameterOptions>
+public class ParameterOptionsOutput(IOptions<ParameterOptions> options) : ILogObjectProvider<ParameterOptions>
 {
-  private readonly IOptions<ParameterOptions> _options;
-
-  public ParameterOptionsOutput(IOptions<ParameterOptions> options)
-  {
-    _options = options;
-  }
-
   public IEnumerable<LogObject> GetLogs(ParameterOptions target)
   {
-    return new LogObject[]
-    {
+    return
+    [
       new(target.Title),
       new(target.Configuration),
       new(target.Target),
@@ -25,10 +18,10 @@ public class ParameterOptionsOutput : ILogObjectProvider<ParameterOptions>
       new(target.RepositoryOwner),
       new(target.ReleaseBranches),
       new(target.PreReleaseBranches)
-    };
+    ];
   }
 
   public string Name => "Parameters";
 
-  public IEnumerable<LogObject> GetLogs() => GetLogs(_options.Value);
+  public IEnumerable<LogObject> GetLogs() => GetLogs(options.Value);
 }

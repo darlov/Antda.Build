@@ -21,7 +21,7 @@ public class DotNetPackTask : FrostingTask<DefaultBuildContext>
   {
     var projectFiles = context.Paths.ProjectFiles ?? context.GetFiles(context.Patterns.Projects).Select(p => p.FullPath).ToList();
 
-    if (projectFiles.Any())
+    if (projectFiles.Count != 0)
     {
       foreach (var projectFile in projectFiles)
       {

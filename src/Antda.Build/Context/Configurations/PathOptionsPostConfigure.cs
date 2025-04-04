@@ -8,29 +8,22 @@ using Microsoft.Extensions.Options;
 
 namespace Antda.Build.Context.Configurations;
 
-public class PathOptionsPostConfigure : IPostConfigureOptions<PathOptions>
+public class PathOptionsPostConfigure(ICakeContext context) : IPostConfigureOptions<PathOptions>
 {
-  private readonly ICakeContext _context;
-
-  public PathOptionsPostConfigure(ICakeContext context)
-  {
-    _context = context;
-  }
-
   public void PostConfigure(string? name, PathOptions options)
   {
-    options.Root = (string.IsNullOrEmpty(options.Root) ? _context.Environment.WorkingDirectory : options.Root).MakeAbsolute(_context.Environment).FullPath;
+    options.Root = (string.IsNullOrEmpty(options.Root) ? context.Environment.WorkingDirectory : options.Root).MakeAbsolute(context.Environment).FullPath;
     options.Source = DirectoryPath.FromString(string.IsNullOrEmpty(options.Source) ? options.Root : options.Source).MakeAbsolute(options.Root).FullPath;
     options.Output = DirectoryPath.FromString(options.Output).MakeAbsolute(options.Root).FullPath;
     options.OutputNugetPackages = DirectoryPath.FromString(options.OutputNugetPackages).MakeAbsolute(options.Output).FullPath;
 
     try
     {
-      options.GitRoot = _context.GitFindRootFromPath(options.Root).FullPath;
+      options.GitRoot = context.GitFindRootFromPath(options.Root).FullPath;
     }
     catch (RepositoryNotFoundException)
     {
-      _context.Warning("Unable to find git repository.");
+      context.Warning("Unable to find git repository.");
     }
 
     if (options.ProjectFiles is { Count: > 0 })

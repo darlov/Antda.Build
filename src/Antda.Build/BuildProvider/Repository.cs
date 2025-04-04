@@ -2,19 +2,13 @@
 
 namespace Antda.Build.BuildProvider;
 
-public class Repository
+public class Repository(string name, bool exist)
 {
-  public Repository(string name, bool exist)
-  {
-    Name = name;
-    Exist = exist;
-  }
-
-  public bool Exist { get; }
+  public bool Exist { get; } = exist;
 
   public bool IsPullRequest { get; init; }
 
-  public string Name { get; }
+  public string Name { get; } = name;
 
   public string BranchName { get; init; } = StringNone.Value;
 

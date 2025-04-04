@@ -4,17 +4,8 @@ using Cake.Core;
 
 namespace Antda.Build.Output;
 
-public class BuildProviderOutput : ILogObjectProvider<IBuildProvider>
+public class BuildProviderOutput(IBuildProvider buildProvider, ICakeContext context) : ILogObjectProvider<IBuildProvider>
 {
-  private readonly IBuildProvider _buildProvider;
-  private readonly ICakeContext _context;
-
-  public BuildProviderOutput(IBuildProvider buildProvider, ICakeContext context)
-  {
-    _buildProvider = buildProvider;
-    _context = context;
-  }
-
   public IEnumerable<LogObject> GetLogs(IBuildProvider target)
   {
     yield return new(target.Type);
@@ -28,11 +19,11 @@ public class BuildProviderOutput : ILogObjectProvider<IBuildProvider>
 
     foreach (var variable in target.Variables)
     {
-      yield return new(_context.Environment.GetEnvironmentVariable(variable), variable, false);
+      yield return new(context.Environment.GetEnvironmentVariable(variable), variable, false);
     }
   }
 
   public string Name => "Build Provider";
 
-  public IEnumerable<LogObject> GetLogs() => GetLogs(_buildProvider);
+  public IEnumerable<LogObject> GetLogs() => GetLogs(buildProvider);
 }

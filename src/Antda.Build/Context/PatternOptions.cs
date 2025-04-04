@@ -13,8 +13,7 @@ public class PatternOptions
   public const string HotfixBranchKey = $"{SectionName}:{nameof(HotfixBranch)}";
   public const string ReleaseBranchKey = $"{SectionName}:{nameof(ReleaseBranch)}";
 
-  [Required]
-  public string Projects { get; set; } = null!;
+  public required string Projects { get; set; }
 
   [Required]
   public string TestProjects { get; set; } = null!;

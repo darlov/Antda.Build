@@ -10,6 +10,4 @@ namespace Antda.Build.Tasks;
 [IsDependentOn(typeof(DotNetTestTask))]
 [IsDependentOn(typeof(DotNetPackTask))]
 [IsDependentOn(typeof(UploadArtifactsTask))]
-public class CiTestTask : FrostingTask
-{
-}
+public class CiTestTask : FrostingTask;
